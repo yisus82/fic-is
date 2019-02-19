@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+
+    <definition name=".Base" page="/commontiles/layouts/DefaultLayout.jspx">
+        <put name="title"  value="${title}" />
+        <put name="header" value="/commontiles/DefaultHeader.jspx" />
+        <put name="sidebar" value="/commontiles/DefaultSidebar.jspx" />
+        <put name="content"  value="${content}" />
+        <put name="footer" value="/commontiles/DefaultFooter.jspx" />
+    </definition>
+
+    <definition name=".InternalError" extends=".Base" >
+        <put name="title" value="InternalError.title" />
+        <put name="content" value="/InternalErrorContent.jspx" />
+    </definition>
+
+    <definition name=".Welcome" extends=".Base" >
+        <put name="title" value="Welcome.title" />
+        <put name="content" value="/WelcomeContent.jspx" />
+    </definition>        
+    
+    <definition name=".ShowHighlightedEventsContent" extends=".Base">
+		<put name="title" value="ShowHighlightedEventsContent.title" />
+		<put name="content" value="/ShowHighlightedEventsContent.jspx" />
+	</definition>
+	
+	<definition name=".ShowRecentEventsContent" extends=".Base">
+		<put name="title" value="ShowRecentEventsContent.title" />
+		<put name="content" value="/ShowRecentEventsContent.jspx" />
+	</definition>
+
+</tiles-definitions>

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+	<distributable />
+	<!-- ======================= Standard TagLibs configuration ============== -->
+	<context-param>
+		<param-name>
+			javax.servlet.jsp.jstl.fmt.localizationContext
+		</param-name>
+		<param-value>
+			ubet.http.view.messages.Messages_english
+		</param-value>
+	</context-param>
+	<!-- ===================== Front controller configuration =============== -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/Struts/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<!-- ====================== Standard Action Servlet Mapping ============== -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<!-- ============================= Session =============================== -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<!-- ========================== Welcome page ============================= -->
+	<welcome-file-list>
+		<welcome-file>Index.jspx</welcome-file>
+	</welcome-file-list>
+	<!-- ============================ uBet DataSource ======================== -->
+	<resource-ref>
+		<res-ref-name>jdbc/J2EE-uBetMySQLDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<!-- ========================== Environment entries ====================== -->
+	<!--  For databases providing identifier generators -->
+	<env-entry>
+		<env-entry-name>
+			EntityIdentifierGeneratorFactory/generatorClassName
+		</env-entry-name>
+		<env-entry-value>
+			es.udc.fbellas.j2ee.util.sql.NativeEntityIdentifierGenerator
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- PostgreSQL -->
+	<env-entry>
+		<env-entry-name>
+			NativeEntityIdentifierGenerator/query
+		</env-entry-name>
+		<env-entry-value>SELECT nextval('?1')</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>
+			NativeEntityIdentifierGenerator/sequence-Account
+		</env-entry-name>
+		<env-entry-value>AccountSeq</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>
+			NativeEntityIdentifierGenerator/sequence-AccountOperation
+		</env-entry-name>
+		<env-entry-value>AccountOpSeq</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>
+			NativeEntityIdentifierGenerator/sequence-Bet
+		</env-entry-name>
+		<env-entry-value>BetSeq</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>
+			NativeEntityIdentifierGenerator/sequence-BetOption
+		</env-entry-name>
+		<env-entry-value>BetOptionSeq</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>
+			NativeEntityIdentifierGenerator/sequence-BetType
+		</env-entry-name>
+		<env-entry-value>BetTypeSeq</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>
+			NativeEntityIdentifierGenerator/sequence-Event
+		</env-entry-name>
+		<env-entry-value>EventSeq</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!--  For databases providing counter columns without JDBC 3 drivers -->
+	<env-entry>
+		<env-entry-name>
+			EntityIdentifierRetrieverFactory/retrieverClassName
+		</env-entry-name>
+		<env-entry-value>
+			es.udc.fbellas.j2ee.util.sql.GenericEntityIdentifierRetriever
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- MySQL -->
+	<env-entry>
+		<env-entry-name>
+			GenericEntityIdentifierRetriever/query
+		</env-entry-name>
+		<env-entry-value>SELECT LAST_INSERT_ID()</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- Account DAO for databases providing identifier generators -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLAccountDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.account.dao.IGSQLAccountDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- Account DAO for databases providing counter columns without JDBC 3 
+		drivers -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLAccountDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.account.dao.CCSQLAccountDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- Account DAO for databases providing counter columns with JDBC 3 
+		drivers -->
+	<env-entry>
+		<env-entry-name>
+			SQLAccountDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.account.dao.JDBC3CCSQLAccountDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- AccountOperation DAO for databases providing identifier generators -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLAccountOperationDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.accountoperation.dao.IGSQLAccountOperationDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- AccountOperation DAO for databases providing counter columns without 
+		JDBC 3 drivers -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLAccountOperationDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.accountoperation.dao.CCSQLAccountOperationDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- AccountOperation DAO for databases providing counter columns with JDBC 3
+		drivers -->
+	<env-entry>
+		<env-entry-name>
+			SQLAccountOperationDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.accountoperation.dao.JDBC3CCSQLAccountOperationDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- Bet DAO for databases providing identifier generators -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLBetDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.bet.dao.IGSQLBetDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- Bet DAO for databases providing counter columns without JDBC 3 
+		drivers -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLBetDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.bet.dao.CCSQLBetDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- Bet DAO for databases providing counter columns with JDBC 3 
+		drivers -->
+	<env-entry>
+		<env-entry-name>SQLBetDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>
+			ubet.model.bet.dao.JDBC3CCSQLBetDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- BetOption DAO for databases providing identifier generators -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLBetOptionDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.betoption.dao.IGSQLBetOptionDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- BetOption DAO for databases providing counter columns without JDBC 3 
+		drivers -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLBetOptionDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.betoption.dao.CCSQLBetOptionDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- BetOption DAO for databases providing counter columns with JDBC 3 
+		drivers -->
+	<env-entry>
+		<env-entry-name>
+			SQLBetOptionDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.betoption.dao.JDBC3CCSQLBetOptionDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- BetType DAO for databases providing identifier generators -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLBetTypeDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.bettype.dao.IGSQLBetTypeDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- BetType DAO for databases providing counter columns without JDBC 3 
+		drivers -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLBetTypeDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.bettype.dao.CCSQLBetTypeDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- BetType DAO for databases providing counter columns with JDBC 3 
+		drivers -->
+	<env-entry>
+		<env-entry-name>
+			SQLBetTypeDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.bettype.dao.JDBC3CCSQLBetTypeDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- Category DAO -->
+	<env-entry>
+		<env-entry-name>
+			SQLCategoryDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.category.dao.StandardSQLCategoryDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- Category Question DAO -->
+	<env-entry>
+		<env-entry-name>
+			SQLCategoryQuestionDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.categoryquestion.dao.StandardSQLCategoryQuestionDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- Country DAO -->
+	<env-entry>
+		<env-entry-name>
+			SQLCountryDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.country.dao.StandardSQLCountryDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- Event DAO for databases providing identifier generators -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLEventDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.event.dao.IGSQLEventDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- Event DAO for databases providing counter columns without JDBC 3 
+		drivers -->
+	<!--
+		<env-entry>
+		<env-entry-name>SQLEventDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>ubet.model.event.dao.CCSQLEventDAO</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+		</env-entry>
+	-->
+	<!-- Event DAO for databases providing counter columns with JDBC 3 
+		drivers -->
+	<env-entry>
+		<env-entry-name>SQLEventDAOFactory/daoClassName</env-entry-name>
+		<env-entry-value>
+			ubet.model.event.dao.JDBC3CCSQLEventDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- Question DAO -->
+	<env-entry>
+		<env-entry-name>
+			SQLQuestionDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.question.dao.StandardSQLQuestionDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- User DAO -->
+	<env-entry>
+		<env-entry-name>
+			SQLUserProfileDAOFactory/daoClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.userprofile.dao.StandardSQLUserProfileDAO
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- AdminFacadeDelegate -->
+	<env-entry>
+		<env-entry-name>
+			AdminFacadeDelegateFactory/delegateClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.adminfacade.plain.PlainAdminFacadeDelegate
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- SearchFacadeDelegate -->
+	<env-entry>
+		<env-entry-name>
+			SearchFacadeDelegateFactory/delegateClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.searchfacade.plain.PlainSearchFacadeDelegate
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	<!-- UserFacadeDelegate -->
+	<env-entry>
+		<env-entry-name>
+			UserFacadeDelegateFactory/delegateClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.userfacade.plain.PlainUserFacadeDelegate
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+</web-app>

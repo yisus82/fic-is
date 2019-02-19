@@ -1,0 +1,842 @@
+               	 	*************** J2EE-uBet v1.0 ***************
+
+                 Jesús Ángel Pérez-Roca Fernández (djalma_fd@yahoo.es)
+	              José Antonio Pereira Suárez (ja_pereira@eresmas.com)
+
+Contents
+--------
+
+1. Software requirements
+2. Basic installation and configuration of software packages
+3. Environment variables
+4. Building and initialization of the database
+5. Distribution
+6. Ant files
+7. Executing uBet
+8. Executing Wasting Money
+9. Distributed environment
+10. Known problems with the development environment
+11. Bug reports and suggestions for improvement
+12. Documentation
+
+1. Software requirements
+   ---------------------
+
+   This software has been developed and tested with:
+   
+   * Operating system. It should be possible to compile and execute this
+     distribution in Unix-like operating systems and any version of
+     MS-Windows. In particular, we have tested the following combinations:
+
+     - Ubuntu 5.10 + {MySQL, PostgreSQL}.
+     - MS Windows XP + {MySQL, PostgreSQL}.
+     
+     All scripts are provided both in ".sh" and ".bat" files.
+     
+   * An implementation of J2SE 5.0. 
+
+     We have used Sun's JDK 1.5.0 (Update 4) on Linux and MS-Windows.
+   
+   * ant 1.6.5. 
+   
+     To manage the project (compile, generate JavaDoc, jars, and so on).
+     
+   * MySQL Community Edition 4.1.14 and PostgreSQL 8.0.3. Both of them are
+     available for Unix-like and MS-Windows operating systems.
+     
+     We have used the following drivers:
+     
+     - mysql-connector-java-3.1.10-bin.jar (JDBC 3 driver) with
+       MySQL 4.1.14 Community Edition.
+    
+     - postgresql-8.0-312.jdbc3.jar (JDBC 3 driver) with PostgreSQL 8.0.3.
+        
+     The use of another relational database, assuming that provides a decent
+     SQL, should be very easy. Probably it should only require to port SQL
+     scripts for table creation and modify the configuration. Otherwise, 
+     some interfaces should be implemented.
+     
+   * An application server conforming to Servlet 2.4, JSP 2.0 and EJB 3.0.
+
+     We have used Jakarta Tomcat 5.5.9 (servlet and JSP container) and
+     JBoss 4.0.4RC1 (J2EE application server).
+     
+   * An implementation of the JSP Standard Tag Library (JSTL) 1.1.
+
+     We have used Jakarta Standard TagLibs 1.1.2.
+
+   * Jakarta Struts 1.2.7. A Model-View-Controller framework for JSP.
+
+   * To read the sources, you should use a text editor configured with
+     *tab size* to *four* blanks.
+     
+2. Basic installation and configuration of software packages
+   ---------------------------------------------------------
+   
+   Most software packages needed by J2EE-uBet are very easy to install
+   and configure for development. However, some of them must be installed with
+   care. In this section it is commented how to do a basic installation and
+   configuration of such packages. Check section 3 for environment variables
+   when needed.
+   
+   2.1 Basic installation and usage of MySQL Community Edition
+       -------------------------------------------------------
+       
+   * Installation of MySQL 4.1.14 on Unix-like operating systems:
+
+   Install MySQL as root user and run the server as normal user.
+
+   As "root" user, proceed as follows:
+       
+   - Unpack mysql-standard-4.1.14-pc-linux-gnu-i686.tar.gz on some directory
+     (e.g. /usr/local).
+   - chown -R root:root mysql-standard-4.1.14-pc-linux-gnu-i686
+   - chmod -R 755 mysql-standard-4.1.14-pc-linux-gnu-i686
+   - Create the symbolic link "/usr/local/mysql" pointing to the directory
+     where MySQL is installed:
+     ln -s `pwd`/mysql-standard-4.1.14-pc-linux-gnu-i686 /usr/local/mysql
+
+   As normal user, proceed as follows:
+
+   - Create a directory where MySQL will store its databases. For example:
+     /home/user/.MySQLData.
+   - Create $HOME/.my.cnf file with a similar content to the following:
+   
+     [mysqld]
+     datadir=/home/user/.MySQLData
+    
+     Change the value of "datadir" to the directory created previously.
+   
+   - cd /usr/local/mysql 
+   - scripts/mysql_install_db
+   
+     This will create "mysql" and "test" databases in the directory specified
+     by the previous "datadir" option.
+     
+   * Installation of MySQL 4.1.14 on MS-Windows operating systems with support 
+     for Microsoft Windows Installer (MSI):
+
+   - Double-click on mysql-essential-4.1.14-win32.msi. Use default options.
+   - After the installation of MySQL, the MySQL Server Instance Configuration
+     Wizard will run. Use default options but the following ones:
+
+     + Best Support For Multilingualism (UTF-8).
+     + Uncheck "Install As Windows Service" and check "Install Bin Directory
+       In Windows PATH".
+         
+   * In order to minimize changes to J2EE-uBet default configuration,
+     create a database with name "j2ee", and a user with name "j2ee" and 
+     password "j2ee". In the case of a Unix-like operating system, run the
+     following commands as normal user.
+   
+   - Start the MySQL server.
+   
+     mysqld
+   
+   - Create a database with name "j2ee".
+   
+     mysqladmin -u root create j2ee
+     
+   - Create a user with name "j2ee" and password "j2ee", and allow him to 
+     access from local host.
+   
+     mysql -u root
+     
+     GRANT ALL PRIVILEGES ON j2ee.* to j2ee@localhost IDENTIFIED BY 'j2ee',
+         j2ee@localhost.localdomain IDENTIFIED BY 'j2ee';
+     
+   - Try to access to "j2ee" database as "j2ee" user with password "j2ee".
+   
+     mysql -u j2ee --password=j2ee j2ee
+   
+   - Shutdown the MySQL server.
+
+     mysqladmin -u root shutdown
+   
+   2.2 Basic installation and configuration of PostgreSQL on Unix-like
+       ---------------------------------------------------------------
+       operating systems
+       -----------------
+
+   - Required packages to install PostgreSQL 8.0.3: 
+
+     + postgresql-libs-8.0.3-1PGDG.i686.rpm
+     + postgresql-8.0.3-1PGDG.i686.rpm
+     + postgresql-server-8.0.3-1PGDG.i686.rpm
+
+   Initialize the database:
+
+   - Define the environment variable PGDATA, which must specify a directory
+     where PostgreSQL will save data (tables, indexes, etc.). This variable is
+     defined in the example ~/.bash_profile provided in section 3. Do not
+     create the directoy ("initdb" will create it).
+
+   - initdb
+
+     It creates the directory specified by PGDATA and initializes the database.
+   
+   In order to minimize changes to J2EE-uBet default configuration, create
+   a database with name "j2ee" and a user with name "j2ee" and password "j2ee".
+
+   - Start the PostgreSQL server.
+   
+     postmaster
+     
+     Later, you can shutdown the PostgreSQL server by pressing CTRL-C.
+     
+   - Create a user with name "j2ee" and password "j2ee".
+   
+     createuser -P j2ee
+          
+   - Create a database with name "j2ee".
+   
+     createdb -U j2ee -W j2ee
+     
+   - Try to access to "j2ee" database as "j2ee" user with password "j2ee".
+   
+     psql j2ee j2ee
+   
+   - Shutdown the PostgreSQL server.
+
+     You can shutdown the PostgreSQL server by pressing CTRL-C.
+   
+   2.3 Basic installation and configuration of Tomcat
+       ----------------------------------------------
+       
+   After unpacking jakarta-tomcat-5.5.9.tar.gz:
+   
+   - You must have write permissions on the following directories (and the
+     files/subdirectories they contain): conf, logs, temp, webapps and
+     work.
+     
+   - In order to avoid a lot of problems with sessions when working with
+     SFSBs, it is better to disable session persistence across Tomcat restarts.
+     In $CATALINA_HOME/conf/context.xml, remove the comments surrounding the
+     line reading:
+
+     <Manager pathname="" /> 
+     
+   - Modify $CATALINA_HOME/conf/tomcat-users.xml in order to create a user
+     in the role of "manager". In our installation, we have modified the
+     definition of the "tomcat" user as follows: 
+     
+     <user name="tomcat" password="tomcat" roles="tomcat,manager"/>
+     
+     This allows you to access Tomcat Manager web application as user "tomcat"
+     and password "tomcat".
+     
+   - Copy the JDBC driver to $CATALINA_HOME/common/lib.
+    
+   - Define a global datasource named "jdbc/J2EE-uBetMySQLDS" (if using MySQL) or 
+   	 "jdbc/J2EE-uBetPostgreSQLDS" (if using PostgreSQL). 
+     
+     * Add the following lines to $CATALINA_HOME/conf/server.xml, inside the
+       "<GlobalNamingResources>" tag.
+
+    <!-- MySQL -->
+    <Resource name="jdbc/J2EE-uBetMySQLDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost/j2ee"
+              username="j2ee"
+              password="j2ee"
+              maxActive="4"
+              maxIdle="2"
+              maxWait="10000"
+              removeAbandoned="true"
+              removeAbandonedTimeout="60"
+              logAbandoned="true"
+              validationQuery="SELECT COUNT(*) FROM PingTable"/>
+
+    <!-- PostgreSQL -->
+    <Resource name="jdbc/J2EE-uBetPostgreSQLDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost/j2ee"
+              username="j2ee"
+              password="j2ee"
+              maxActive="4"
+              maxIdle="2"
+              maxWait="10000"
+              removeAbandoned="true"
+              removeAbandonedTimeout="60"
+              logAbandoned="true"
+              validationQuery="SELECT COUNT(*) FROM PingTable"/>
+
+     * Add the following lines to $CATALINA_HOME/conf/context.xml, inside
+       the <Context> tag.
+
+    <ResourceLink name="jdbc/J2EE-uBetMySQLDS" global="jdbc/J2EE-uBetMySQLDS"
+        type="javax.sql.DataSource"/>
+    
+    <ResourceLink name="jdbc/J2EE-uBetPostgreSQLDS" global="jdbc/J2EE-uBetPostgreSQLDS"
+        type="javax.sql.DataSource"/>
+   
+       
+   2.4 Basic installation and configuration of JBoss
+       ---------------------------------------------
+
+   After unpacking jboss-4.0.4RC1.zip:
+
+   - java -jar jboss-4.0.4RC1-installer.jar
+
+     In the installation wizard, choose "ejb3" installation type (by default,
+     "ejb3-clustered" is installed).
+   
+   - You must have write permissions on the directory (and the
+     files/subdirectories it contain) server/default.
+     
+   - If using MySQL, configure JBoss for it to be able to connect to MySQL
+     server.
+     
+     * cp docs/examples/jca/mysql-ds.xml server/default/deploy
+     * Modify server/default/deploy/mysql-ds.xml as follows:
+
+<datasources>
+  <local-tx-datasource>
+    <jndi-name>MySqlDS</jndi-name>
+    <connection-url>jdbc:mysql://localhost/j2ee</connection-url>
+    <driver-class>com.mysql.jdbc.Driver</driver-class>
+    <user-name>j2ee</user-name>
+    <password>j2ee</password>
+    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter</exception-sorter-class-name>
+    <!-- should only be used on drivers after 3.22.1 with "ping" support -->
+    <valid-connection-checker-class-name>org.jboss.resource.adapter.jdbc.vendor.MySQLValidConnectionChecker</valid-connection-checker-class-name>
+    <!-- sql to call when connection is created -->
+    <new-connection-sql>SELECT COUNT(*) FROM PingTable</new-connection-sql>
+    <!-- sql to call on an existing pooled connection when it is obtained from pool - MySQLValidConnectionChecker is preferred for newer drivers
+    <check-valid-connection-sql>some arbitrary sql</check-valid-connection-sql>
+      -->
+
+    <!-- corresponding type-mapping in the standardjbosscmp-jdbc.xml (optional) -->
+    <metadata>
+       <type-mapping>mySQL</type-mapping>
+    </metadata>
+  </local-tx-datasource>
+</datasources>
+
+      * Copy MySQLSQL JDBC driver to server/default/lib.
+       
+   - If using PostgreSQL, configure JBoss for it to be able to connect to
+     PostgreSQL server.
+   
+     * cp docs/examples/jca/postgres-ds.xml server/default/deploy
+     * Modify server/default/deploy/postgres-ds.xml as follows:
+       
+<datasources>
+  <local-tx-datasource>
+    <jndi-name>PostgresDS</jndi-name>
+    <connection-url>jdbc:postgresql://localhost/j2ee</connection-url>
+    <driver-class>org.postgresql.Driver</driver-class>
+    <user-name>j2ee</user-name>
+    <password>j2ee</password>
+        <!-- sql to call when connection is created.  Can be anything, select 1 is valid for PostgreSQL -->
+        <new-connection-sql>select 1</new-connection-sql>
+
+        <!-- sql to call on an existing pooled connection when it is obtained from pool.  Can be anything, select 1 is valid for PostgreSQL -->
+        <check-valid-connection-sql>select 1</check-valid-connection-sql>
+
+      <!-- corresponding type-mapping in the standardjbosscmp-jdbc.xml (optional) -->
+      <metadata>
+         <type-mapping>PostgreSQL 7.2</type-mapping>
+      </metadata>
+  </local-tx-datasource>
+
+</datasources>
+
+      * Copy PosgreSQL JDBC driver to server/default/lib.
+
+
+3. Environment variables
+   ---------------------
+
+   This is an excerpt of our "~/.bash_profile". Adapt to your environment.
+
+# ---------------------------------------------------------------------------
+# Programming Tools.
+# ---------------------------------------------------------------------------
+
+# J2SE.
+JAVA_HOME=/usr/java/jdk1.5.0_04
+export JAVA_HOME
+# For convenience.
+PATH=$JAVA_HOME/bin:$PATH
+
+# Ant.
+ANT_HOME=/usr/apache-ant-1.6.5
+export ANT_HOME
+PATH=$PATH:$ANT_HOME/bin
+
+# PostgreSQL.
+PGDATA=$HOME/.PostgreSQLData
+export PGDATA
+
+# MySQL.
+MYSQL_HOME=/usr/local/mysql
+export MYSQL_HOME
+PATH=$PATH:$MYSQL_HOME/bin
+
+# Tomcat.
+CATALINA_HOME=/usr/jakarta-tomcat-5.5.9
+export CATALINA_HOME
+
+# ---------------------------------------------------------------------------
+# J2EE-uBet.
+# ---------------------------------------------------------------------------
+
+# The home directory of J2EE-uBet.
+J2EE_UBET_HOME=$HOME/J2EE-uBet-src-1.0
+export J2EE_UBET_HOME
+
+  In MS Windows operating system, you have to create the environment 
+  variables this way: 1. Right-click on My Computer desktop icon. 
+  2. Select Properties from the contextual menu. 3. Select the Advanced
+  Options tab. 4. Click on Environment variables button. 5. Click on New 
+  button to create the a new environment variable.
+  You have to create all of these: 
+  
+	- JAVA_HOME
+	- ANT_HOME
+	- CATALINA_HOME
+	- J2EE_UBET_HOME
+
+  Then you have to modify the environment variable PATH to append this:
+  
+	;%JAVA_HOME%\bin;%ANT_HOME%\bin;%CATALINA_HOME%\bin
+
+4. Building and initialization of the database
+   ------------------------------------------------------
+
+   Set up environment variables (section 3). Execute ". ~/.bash_profile" 
+   if you are in an Unix-like operating system.
+
+   In an Unix-like operating system do this:
+   	Unpack J2EE-uBet-src-1.0.tar.gz
+   	cd $J2EE_UBET_HOME/Subsystems
+   	
+   In MS Windows operating system do this:
+    Unpack J2EE-uBet-src-1.0.zip
+   	cd %J2EE_UBET_HOME%\Subsystems
+
+   You may need to adapt some of the below files. Both if you use MySQL and
+   PosgtgreSQL, you need to adapt CommonProperties.xml and
+   ../Scripts/CommonEnvironmentVariables.{sh, bat}. If you use MySQL with 
+   the database "j2ee" and the user "j2ee" with password "j2ee", you don't
+   need to modify more files. If you use PostgreSQL, you need to adapt data
+   sources and notice that PostgreSQL is a DBMS providing identifier 
+   generators (sequences) while MySQL is a DBMS providing counter columns. 
+   To facilitate the use of both DBMS, we have included commented default
+   sections for PostgreSQL in all files. So, you only need to uncomment 
+   them. 
+   
+   - CommonProperties.xml. Go to "Development environment" and "Development
+     environment options" sections and follow instructions.
+     
+   - ../Scripts/CommonEnvironmentVariables.{sh, bat}. Go to "Run-time 
+   	 system" section and follow instructions.
+   	 
+   - ../PropertiesConfiguration/ConfigurationParameters.properties
+   
+     ***REQUIRES MODIFICATION FOR PostgreSQL***
+
+   - ../PropertiesConfiguration/ServiceLocatorJNDIInitialContext.properties
+
+   - uBet/Sources/HTMLView/WEB-INF/plainweb.xml
+   
+   ***REQUIRES MODIFICATION FOR PostgreSQL***
+   
+   - uBet/Sources/HTMLView/WEB-INF/ejbweb.xml
+
+   - uBet/Sources/EJBConfiguration/persistence.xml
+   
+     ***REQUIRES MODIFICATION FOR PostgreSQL***
+
+   Finally, start the database and execute:
+   
+   ant all initdb
+   
+   During execution of target "initdb" you will see a number of SQL errors 
+   reported by ant whenever a DROP sentence is executed. This is normal 
+   since J2EE-uBet SQL scripts drop tables and sequences before creating 
+   them, which causes errors when such tables or sequences don't exist yet. 
+   
+5. Distribution
+   ------------
+
+   PropertiesConfiguration
+      |   
+   Scripts
+      |
+   Subsystems
+      |
+      |-- uBet
+      		|-- Sources
+      		|-- Scripts
+      |-- WastingMoney
+      		|-- Sources
+
+   Under "PropertiesConfiguration" there are configuration files 
+   that maybe you need to adapt to your environment.
+   "ConfigurationParameters.properties" is intended to be only used to run
+   unit tests or standalone applications, and not for web applications 
+   (which use env-entry tags in web.xml for configuration information)
+   or EJB components (which use env-entry tags in ejb-jar.xml for 
+   configuration information). 
+
+6. Ant files
+   ---------
+   
+   Each subsystem provides a "build.xml" file in its "Sources" directory, 
+   providing the following main targets (some targets may not be in WastingMoney build.xml file):
+   
+   * compile (default target): compiles only source files newer than the
+     corresponding ".class" files, which are generated under
+     "<subsystem>/Build/Classes".
+   * rebuild: unconditionally recompile all source files. This target is
+     specially important when the value of a constant is modified. If such
+     a constant is used by other classes, you need to recompile all of them,
+     even though the corresponding source files have been not modified
+     (because Java compilers copy the value of the constant).
+   * jars : generates ".jar" files in "<subsystem>/Build/Jars".
+   * wars : generates ".war" files under "<subsystem>/Build/Wars".
+   * ears : generates ".ear" files under "<subsystem>/Build/Ears".
+   * javadoc: generates JavaDoc documentation under 
+     "<subsystem>/Build/JavaDoc".
+   * deployYYY : deploys ".war" or ".ear" files.
+
+   Inside each subsystem, targets are safe, wich means that a target
+   depends on other targets. For example, "javadoc" depends on
+   "compile", which means that executing "ant javadoc" will recompile
+   modified classes (if any) before generating JavaDoc documentation.
+
+   Each "build.xml" file includes "CommonProperties.xml" and 
+   "CommonPathReferences.xml" from "$J2EE_UBET_HOME/Subsystems" directory.
+   
+   Under "Subsystems" directory there is a "build.xml" file which links
+   all "build.xml" files. Main targets:
+   
+   * compile (default target): calls compile target on all "build.xml" 
+     files.
+   * rebuild: calls rebuild target on all "build.xml" files.
+   * jars: calls jars target on all "build.xml" files.
+   * wars: calls wars target on all "build.xml" files.
+   * ears: calls ears target on all "build.xml" files providing ears target.
+   * javadoc: generates *all* documentation in "Build/JavaDoc". It does 
+   	 *not* call "build.xml" files in the subsystems.
+   * sourcedist: generates a ".tar.gz" file and a ".zip" file with a clean
+     source distribution (with no ".class" files, jars, JavaDoc, and so on).
+     The file is generated in "$J2EE_EXAMPLES_HOME/Build". This is the 
+     target we use when we build a source release ready to distribution.
+     It can also be used to make a fast backup of the project.
+   * all: executes rebuild, jars, wars and javadoc targets on all 
+     "build.xml" files.
+   * initdb: runs SQL scripts (table creation) required by J2EE-uBet.
+   
+7. Executing uBet
+   --------------------------------
+
+   7.1 Unit tests
+       ----------
+   
+   Unit tests are provided as test case classes and are grouped in a test suite class (MainTest.java).
+
+   The classes providing unit tests are under the "test" directory under
+   uBet subsystem.
+  
+   In general, to execute a unit test do the following:
+
+   - Start database.
+   - Configure PropertiesConfiguration/ConfigurationParameters.properties.
+   - Initialize the environment variable "J2EE_UBET_CLASSPATH" as commented
+     in section 2.
+   - Execute the class. Example:
+
+	 In Unix-like operating systems type this: 
+     	java -classpath $J2EE_UBET_CLASSPATH ubet.test.userfacade.TestBet
+     	
+     In MS Windows operating system type this:
+     	java -classpath %J2EE_UBET_CLASSPATH% ubet.test.userfacade.TestBet
+
+   You can also execute the unit tests by typing "ant test" inside the 
+   uBet subsystem Sources directory or with the Eclipse ant plugin.
+
+   7.2 Web applications
+        ----------------
+
+   uBet is distributed in two versions:
+
+   - PlainuBet: [JDBC Model + View + Controller] --> [DB]
+   - EJBuBet: [View + Controller] --> [EJB Model] --> [DB]
+
+   + Deploying and running PlainuBet:
+   
+     cd $J2EE_UBET_HOME/Subsystems/uBet/Sources
+     ant deployplainwar
+     $CATALINA_HOME/bin/startup.sh
+     Point your browser to http://localhost:8080/PlainuBet
+     
+     When finished, stop Tomcat: $CATALINA_HOME/bin/shutdown.sh.
+ 
+   + Deploying and running EJBuBet:
+
+     cd $J2EE_UBET_HOME/Subsystems/uBet/Sources
+     ant deployejbear
+     $JBOSS_HOME/bin/run.sh
+     Point your browser to http://localhost:8080/EJBuBet
+
+     When finished, you can stop JBoss by pressing CTRL-C.
+     
+   7.3 Changes to a war file with Tomcat
+       ---------------------------------
+  
+   What if you need to make a change to a war file when Tomcat is started?
+   One option is to stop it, deploy the war file again, and restart
+   Tomcat. However this is time consuming, since Tomcat needs *some* time to
+   start up. Below general guidelines are given to speed up this process.
+
+   - If you change a JSP or HTML file, you only need to copy it to
+     $CATALINA_HOME/webapps/uBet. Example:
+     cp Index.jsp $CATALINA_HOME/webapps/uBet
+
+   - If you change any other file (Java source file, web.xml, etc.), you
+     need to generate the war file and deploy it again. In order to do this,
+     you only need to type:
+
+     cd $J2EE_UBET_HOME/Subsystems/uBet/Sources
+     ant deployplainwar
+
+     "deployplainwar" target depends on "plainwar" target, which depends on 
+     "compile" target. So, the above line compiles necessary source files,
+     creates the war file and deploy it on Tomcat.
+
+     Now, you need to tell Tomcat that restarts this web application. In order
+     to do this, access the Tomcat Manager web application by typing the
+     following URL in your browser:
+
+     http://localhost:8080/manager/html
+
+     Authenticate as user "tomcat" and password "tomcat". Finally, reload the
+     appropriate web application (PlainuBet in this case).
+
+   7.4 Debugging applications with Tomcat
+       ----------------------------------
+
+   Tomcat provides log files which help debugging web applications. These
+   files reside under $CATALINA_HOME/logs:
+
+   - localhost.<DATE>.log: messages written by using 
+     javax.servlet.ServletContext.log are sent to this file. When Tomcat has
+     a problem compiling a JSP page, can not load a class, etc., writes a
+     stack trace of the exception in this file. Struts uses
+     javax.servlet.ServletContext.log for logging actions.
+
+   - catalina.out: all messages written by using System.out or System.err.
+
+   You should remove log files from time to time (they waste disk space). In
+   order to view these files in a convenient way, it is useful to start two
+   terminals, and run the following two commands (assuming your current
+   working directory be $CATALINA_HOME/logs):
+    
+   tail -f localhost.<DATE>.log
+   tail -f catalina.<DATE>.log
+    
+   "tail" with the option "-f" allows to see the new lines appended to a file
+   as it grows.
+
+   7.5 More on Tomcat
+       --------------
+
+   Its documentation, of course :-)
+
+   Assuming Tomcat is started, type http://localhost:8080 in your browser,
+   and be *patient* to find what you need.
+    
+   7.6 Changes to an ear file with JBoss
+        -------------------------------------
+
+   If you make a change to an ear file, you can deploy it (ant deployejbjar) on
+   JBoss while it is running. JBoss will automatically detect that the ear file
+   has changed.
+ 
+8. Executing Wasting Money
+   --------------------------------  
+   
+   8.1 Web application
+        ----------------
+
+   uBet is distributed in one version:
+
+   - WastingMoney: [JDBC Model + View + Controller] --> [DB]
+   
+   + Deploying and running WastingMoney (with Tomcat):
+   
+     cd $J2EE_UBET_HOME/Subsystems/WastingMoney/Sources
+     ant deploywar
+     $CATALINA_HOME/bin/startup.sh
+     Point your browser to http://localhost:8080/WastingMoney
+     
+     When finished, stop Tomcat: $CATALINA_HOME/bin/shutdown.sh.
+ 
+   + Deploying and running WastingMoney (with JBoss):
+
+     cd $J2EE_UBET_HOME/Subsystems/WastingMoney/Sources
+     ant deploywar
+     $JBOSS_HOME/bin/run.sh
+     Point your browser to http://localhost:8080/WastingMoney
+
+     When finished, you can stop JBoss by pressing CTRL-C.
+     
+   8.2 Changes to a war file with Tomcat
+       ---------------------------------
+  
+   What if you need to make a change to a war file when Tomcat is started?
+   One option is to stop it, deploy the war file again, and restart
+   Tomcat. However this is time consuming, since Tomcat needs *some* time to
+   start up. Below general guidelines are given to speed up this process.
+
+   - If you change a JSP or HTML file, you only need to copy it to
+     $CATALINA_HOME/webapps/WastingMoney. Example:
+     cp Index.jsp $CATALINA_HOME/webapps/WastingMoney
+
+   - If you change any other file (Java source file, web.xml, etc.), you
+     need to generate the war file and deploy it again. In order to do this,
+     you only need to type:
+
+     cd $J2EE_UBET_HOME/Subsystems/WastingMoney/Sources
+     ant deploywar
+
+     "deploywar" target depends on "war" target, which depends on 
+     "compile" target. So, the above line compiles necessary source files,
+     creates the war file and deploy it on Tomcat.
+
+     Now, you need to tell Tomcat that restarts this web application. In order
+     to do this, access the Tomcat Manager web application by typing the
+     following URL in your browser:
+
+     http://localhost:8080/manager/html
+
+     Authenticate as user "tomcat" and password "tomcat". Finally, reload the
+     appropriate web application (WastingMoney in this case).
+
+   8.3 Debugging applications with Tomcat
+       ----------------------------------
+
+   Tomcat provides log files which help debugging web applications. These
+   files reside under $CATALINA_HOME/logs:
+
+   - localhost.<DATE>.log: messages written by using 
+     javax.servlet.ServletContext.log are sent to this file. When Tomcat has
+     a problem compiling a JSP page, can not load a class, etc., writes a
+     stack trace of the exception in this file. Struts uses
+     javax.servlet.ServletContext.log for logging actions.
+
+   - catalina.out: all messages written by using System.out or System.err.
+
+   You should remove log files from time to time (they waste disk space). In
+   order to view these files in a convenient way, it is useful to start two
+   terminals, and run the following two commands (assuming your current
+   working directory be $CATALINA_HOME/logs):
+    
+   tail -f localhost.<DATE>.log
+   tail -f catalina.<DATE>.log
+    
+   "tail" with the option "-f" allows to see the new lines appended to a file
+   as it grows.
+
+   8.4 More on Tomcat
+       --------------
+
+   Its documentation, of course :-)
+
+   Assuming Tomcat is started, type http://localhost:8080 in your browser,
+   and be *patient* to find what you need.
+   
+9. Distributed environment
+    ----------------------- 
+    
+    Below, we include some instructions on how to run a distributed 2-tier web
+    application in the development environment we have used, where each
+    component runs in a different machine.
+    
+    Example:
+
+            Tomcat/JBoss   -->   MySQL/PostgreSQL    
+          [193.144.50.156]       [193.144.50.158]
+
+   
+    * MySQL:
+    
+    - mysql -u root mysql
+    
+      grant all privileges on j2ee.* to 'j2ee'@'193.144.50.156' 
+      identified by 'j2ee';
+      
+      This allows the j2ee user to connect to the j2ee database from the 
+      machine with IP 193.144.50.156, where JBoss runs. 
+
+    * PostgreSQL:
+    
+    In $PGDATA/pg_hba.conf, add the following line:
+    
+    host    j2ee    j2ee     193.144.50.156    255.255.255.255    trust
+    
+    The above line allows the j2ee user to connect to the j2ee database from
+    the machine with IP 193.144.50.156, where JBoss runs.
+
+    If using PostgreSQL 8.0.3:
+
+    - In $PGDATA/postgresql.conf, specify:
+
+      listen_addresses = '*'
+
+      This allows to accept remote connections.
+
+    - Alternatively, the above host entries in $PGDATA/pg_hba.conf can also be
+      specified by using CIDR notation. Example:
+
+      host    j2ee    j2ee     193.144.50.156/32    trust
+
+      is equivalent to
+
+      host    j2ee    j2ee     193.144.50.156       255.255.255.255    trust
+    
+    * JBoss    
+    
+    In "<JBoss>/server/default/deploy/{mysql-ds,postgres-ds}.xml", change
+    connection-url (jdbc:mysql://193.144.50.158/j2ee or
+    jdbc:postgresql://193.144.50.158/j2ee).        
+        
+    * Tomcat
+    
+    In "$CATALINA_HOME/conf/server.xml", change the value of the url parameter
+    (jdbc:mysql://193.144.50.158/j2ee or jdbc:postgresql://193.144.50.158/j2ee)
+    in the definition of the J2EE-uBetMySQLDS and J2EE-uBetPostgreSQLDS data sources.
+
+10. Known problems with the development environment
+    -----------------------------------------------
+    
+    In this section, we comment the problems (bugs) that we have detected in
+    the development environment we have used to develop J2EE-uBet.
+
+    10.1 Known problems with JBoss
+         -------------------------
+         
+    If the database is shutdown when JBoss is running, EJBuBet needs to
+    be redeployed (or alternatively, stopping and restarting JBoss). This is
+    due to a bug in JBoss with respect to SFSBs.
+
+    10.2 The "focus" attribute in Struts' <html:form> tag
+         ------------------------------------------------
+
+    When the <html:form> tag in JSP documents is not the root tag, the cursor
+    is not placed automatically in the field specified by the "focus" 
+    attribute. This may be caused by a bug in Struts or Tomcat.
+        
+11. Bug reports and suggestions for improvement
+    -------------------------------------------
+   
+    Send bug reports and suggestions for improvement to "djalma_fd@yahoo.es"
+    or "ja_pereira@eresmas.com", including in the subject "J2EE-uBet 1.0".
+    

@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE struts-config PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+"http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<!-- ============ Form Bean Definitions =================================== -->
+	<form-beans>
+		<form-bean name="loginForm"
+			type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="login" type="java.lang.String" />
+			<form-property name="password" type="java.lang.String" />
+			<form-property name="rememberMyPassword"
+				type="java.lang.Boolean" />
+		</form-bean>
+		<!--
+			"userProfileForm" is defined as "DynaValidatorActionForm" because we want
+			to validate it in "/RegisterUser" and "/UpdateUserProfileDetails" using
+			different validation rules.
+		-->
+		<form-bean name="userProfileForm"
+			type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property name="action" type="java.lang.String" />
+			<form-property name="login" type="java.lang.String" />
+			<form-property name="password" type="java.lang.String" />
+			<form-property name="retypePassword"
+				type="java.lang.String" />
+			<form-property name="firstName" type="java.lang.String" />
+			<form-property name="surname" type="java.lang.String" />
+			<form-property name="email" type="java.lang.String" />
+			<form-property name="countryID" type="java.lang.String" />
+			<form-property name="creditCardNumber"
+				type="java.lang.String" />
+			<form-property name="endMonth" type="java.lang.String" />
+			<form-property name="endYear" type="java.lang.String" />
+			<form-property name="balance" type="java.lang.String" />
+		</form-bean>
+		<form-bean name="changePasswordForm"
+			type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="oldPassword" type="java.lang.String" />
+			<form-property name="newPassword" type="java.lang.String" />
+			<form-property name="retypeNewPassword"
+				type="java.lang.String" />
+		</form-bean>
+		<!--
+			"accountForm" is defined as "DynaValidatorActionForm" because we want
+			to validate it in "/CreateAccount" and "/UpdateAccountDetails" using
+			different validation rules.
+		-->
+		<form-bean name="accountForm"
+			type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property name="action" type="java.lang.String" />
+			<form-property name="accountID" type="java.lang.String" />
+			<form-property name="creditCardNumber"
+				type="java.lang.String" />
+			<form-property name="endMonth" type="java.lang.String" />
+			<form-property name="endYear" type="java.lang.String" />
+			<form-property name="balance" type="java.lang.String" />
+		</form-bean>
+		<!-- Event searching form -->
+		<form-bean name="findEventsForm"
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="parent" type="java.lang.String" />
+			<form-property name="questionID" type="java.lang.String" />
+			<form-property name="description" type="java.lang.String" />
+			<form-property name="startIndex" type="java.lang.String" />
+			<form-property name="count" type="java.lang.String" />
+		</form-bean>
+		<form-bean name="insertEventForm"
+			type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="eventDescription"
+				type="java.lang.String" />
+			<form-property name="category" type="java.lang.String" />
+			<form-property name="questionID" type="java.lang.String" />
+			<form-property name="day" type="java.lang.String" />
+			<form-property name="month" type="java.lang.String" />
+			<form-property name="year" type="java.lang.String" />
+			<form-property name="hour" type="java.lang.String" />
+			<form-property name="minutes" type="java.lang.String" />
+			<form-property name="questionDescription"
+				type="java.lang.String" />
+			<form-property name="optionDescription"
+				type="java.lang.String" />
+			<form-property name="odds" type="java.lang.String" />
+			<form-property name="highlighted" type="java.lang.String" />
+		</form-bean>
+		<!-- Bet type searching form -->
+		<form-bean name="findBetTypesForm"
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="eventID" type="java.lang.String" />
+			<form-property name="startIndex" type="java.lang.String" />
+			<form-property name="count" type="java.lang.String" />
+		</form-bean>
+		<form-bean name="insertBetTypeForm"
+			type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="eventID" type="java.lang.String" />
+			<form-property name="eventDescription"
+				type="java.lang.String" />
+			<form-property name="categoryID" type="java.lang.String" />
+			<form-property name="questionID" type="java.lang.String" />
+			<form-property name="optionDescription"
+				type="java.lang.String" />
+			<form-property name="odds" type="java.lang.String" />
+		</form-bean>
+		<form-bean name="betForm"
+			type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="eventID" type="java.lang.String" />
+			<form-property name="betTypeID" type="java.lang.String" />
+			<form-property name="betOptionID" type="java.lang.String" />
+			<form-property name="balance" type="java.lang.String" />
+			<form-property name="amount" type="java.lang.String" />
+		</form-bean>
+		<form-bean name="insertWinnerOptionsForm"
+			type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property name="betTypeID" type="java.lang.String" />
+			<form-property name="questionDescription"
+				type="java.lang.String" />
+			<form-property name="selectedItems"
+				type="java.lang.String[]" />
+		</form-bean>
+		<form-bean name="addWithdrawForm"
+			type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="balance" type="java.lang.String" />
+			<form-property name="amount" type="java.lang.String" />
+			<form-property name="operationType" type="java.lang.String" />
+		</form-bean>
+		<form-bean name="eventsXMLForm"
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="action" type="java.lang.String" />
+			<form-property name="count" type="java.lang.String" />
+			<form-property name="startIndex" type="java.lang.String" />
+		</form-bean>
+	</form-beans>
+	<!-- ============ Global Forward Definitions ============================== -->
+	<global-forwards>
+		<forward name="MainPage" path="/ShowHighlightedEvents.do"
+			redirect="true" />
+		<forward name="AuthenticationPage" path="/ShowAuthentication.do"
+			redirect="true" />
+		<forward name="InternalError" path="/InternalError.do"
+			redirect="true" />
+	</global-forwards>
+	<!-- ============ Action Mapping Definitions ============================== -->
+	<action-mappings
+		type="ubet.http.controller.frontcontroller.UBetActionMapping">
+		<action path="/InternalError"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter=".InternalError" />
+		<action path="/ShowAuthentication"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter=".Authentication" />
+		<action path="/Login"
+			type="ubet.http.controller.actions.LoginAction" name="loginForm"
+			scope="request" input=".Authentication" validate="true" />
+		<action path="/Logout"
+			type="ubet.http.controller.actions.LogoutAction" />
+		<action path="/EditUserProfileForRegistration"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="/EditUserProfile.do" />
+		<action path="/EditUserProfileForUpdating"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="/EditUserProfile.do">
+			<set-property property="authenticationRequired"
+				value="true" />
+		</action>
+		<action path="/EditUserProfile"
+			type="ubet.http.controller.actions.EditUserProfileAction"
+			name="userProfileForm" scope="request" validate="false">
+			<forward name="RegisterUserForm" path=".RegisterUser" />
+			<forward name="UpdateUserProfileDetailsForm"
+				path=".UpdateUserProfileDetails" />
+		</action>
+		<action path="/RegisterUser"
+			type="ubet.http.controller.actions.RegisterUserAction"
+			name="userProfileForm" scope="request" input="/EditUserProfile.do"
+			validate="true" />
+		<action path="/UpdateUserProfileDetails"
+			type="ubet.http.controller.actions.UpdateUserProfileDetailsAction"
+			name="userProfileForm" scope="request" input="/EditUserProfile.do"
+			validate="true">
+			<set-property property="authenticationRequired"
+				value="true" />
+		</action>
+		<action path="/ShowChangePassword"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter=".ChangePassword">
+			<set-property property="authenticationRequired"
+				value="true" />
+		</action>
+		<action path="/ChangePassword"
+			type="ubet.http.controller.actions.ChangePasswordAction"
+			name="changePasswordForm" scope="request" input=".ChangePassword"
+			validate="true">
+			<set-property property="authenticationRequired"
+				value="true" />
+		</action>
+		<action path="/EditAccountForCreation"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="/EditAccount.do" />
+		<action path="/EditAccountForUpdating"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="/EditAccount.do">
+			<set-property property="authenticationRequired"
+				value="true" />
+		</action>
+		<action path="/EditAccount"
+			type="ubet.http.controller.actions.EditAccountAction"
+			name="accountForm" scope="request" validate="false">
+			<forward name="CreateAccountForm" path=".CreateAccount" />
+			<forward name="UpdateAccountDetailsForm"
+				path=".UpdateAccountDetails" />
+		</action>
+		<action path="/CreateAccount"
+			type="ubet.http.controller.actions.CreateAccountAction"
+			name="accountForm" scope="request" input="/EditAccount.do"
+			validate="true" />
+		<action path="/UpdateAccountDetails"
+			type="ubet.http.controller.actions.UpdateAccountDetailsAction"
+			name="accountForm" scope="request" input="/EditAccount.do"
+			validate="true">
+			<set-property property="authenticationRequired"
+				value="true" />
+		</action>
+		<!-- Find children of category -->
+		<action path="/FindChildrenOfCategory"
+			type="ubet.http.controller.actions.FindChildrenOfCategoryAction"
+			name="findEventsForm" scope="request" input=".ChildrenOfCategory"
+			validate="false">
+			<forward name="ChildrenOfCategory"
+				path=".ChildrenOfCategory" />
+			<forward name="FindEvents" path="/FindEvents.do" />
+		</action>
+		<!-- Find events -->
+		<action path="/FindEvents"
+			type="ubet.http.controller.actions.FindEventsAction"
+			name="findEventsForm" scope="request" input=".FindEventsContent"
+			validate="false">
+			<forward name="FindEventsContent" path=".FindEventsContent" />
+		</action>
+		<action path="/ShowInsertEvent"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter=".InsertEvent">
+			<set-property property="adminRequired" value="true" />
+			<forward name="InsertEventForm" path=".InsertEvent" />
+		</action>
+		<action path="/InsertEvent"
+			type="ubet.http.controller.actions.InsertEventAction"
+			name="insertEventForm" scope="request" input="/ShowInsertEvent.do"
+			validate="true">
+			<set-property property="adminRequired" value="true" />
+			<forward name="InsertEvent" path=".InsertEvent" />
+		</action>
+		<!-- Show event bet types -->
+		<action path="/ShowEventBetTypes"
+			type="ubet.http.controller.actions.ShowEventBetTypesAction"
+			name="findBetTypesForm" scope="request"
+			input=".ShowEventBetTypesContent" validate="false">
+			<forward name="ShowEventBetTypesContent"
+				path=".ShowEventBetTypesContent" />
+		</action>
+		<action path="/ShowInsertBetType"
+			type="ubet.http.controller.actions.ShowInsertBetTypeAction"
+			parameter=".InsertBetType">
+			<set-property property="adminRequired" value="true" />
+			<forward name="InsertBetTypeForm" path=".InsertBetType" />
+		</action>
+		<action path="/InsertBetType"
+			type="ubet.http.controller.actions.InsertBetTypeAction"
+			name="insertBetTypeForm" scope="request"
+			input="/ShowInsertBetType.do" validate="true">
+			<set-property property="adminRequired" value="true" />
+			<forward name="InsertBetType" path=".InsertBetType" />
+		</action>
+		<action path="/ShowBet"
+			type="ubet.http.controller.actions.ShowBetAction" name="betForm"
+			scope="request" validate="false">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="BetForm" path=".Bet" />
+		</action>
+		<action path="/Bet"
+			type="ubet.http.controller.actions.BetAction" name="betForm"
+			scope="request" input="/ShowBet.do" validate="true">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="Bet" path=".Bet" />
+		</action>
+		<!-- Find bets -->
+		<action path="/ShowMyBets"
+			type="ubet.http.controller.actions.ShowMyBetsAction"
+			name="findBetsForm" scope="request" input=".ShowMyBetsContent"
+			validate="false">
+			<forward name="ShowMyBetsContent" path=".ShowMyBetsContent" />
+		</action>
+		<action path="/ChangeCurrentAccount"
+			type="ubet.http.controller.actions.ChangeCurrentAccountAction"
+			parameter=".ShowMyAccountsContent">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="ShowMyAccountsContent"
+				path=".ShowMyAccountsContent" />
+		</action>
+		<action path="/InsertWinnerOptions"
+			type="ubet.http.controller.actions.InsertWinnerOptionsAction"
+			scope="request" name="insertWinnerOptionsForm">
+			<set-property property="adminRequired" value="true" />
+			<forward name="InsertWinnerOptions"
+				path=".InsertWinnerOptions" />
+		</action>
+		<action path="/PublishBetResults"
+			type="ubet.http.controller.actions.PublishResultsAction"
+			name="insertWinnerOptionsForm" scope="request" validate="true">
+			<set-property property="adminRequired" value="true" />
+		</action>
+		<!-- Find accounts -->
+		<action path="/ShowMyAccounts"
+			type="ubet.http.controller.actions.ShowMyAccountsAction"
+			scope="request" input=".ShowMyAccountsContent" validate="false">
+			<forward name="ShowMyAccountsContent"
+				path=".ShowMyAccountsContent" />
+		</action>
+		<!-- Find account operations -->
+		<action path="/ShowMyAccountOperations"
+			type="ubet.http.controller.actions.ShowMyAccountOperationsAction"
+			name="findAccountOperationsForm" scope="request"
+			input=".ShowMyAccountOperationsContent" validate="false">
+			<forward name="ShowMyAccountOperationsContent"
+				path=".ShowMyAccountOperationsContent" />
+		</action>
+		<action path="/ShowAddWithdraw"
+			type="ubet.http.controller.actions.ShowAddWithdrawAction"
+			name="addWithdrawForm" scope="request" validate="false">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="AddWithdrawForm" path=".AddWithdraw" />
+		</action>
+		<action path="/AddWithdraw"
+			type="ubet.http.controller.actions.AddWithdrawAction"
+			name="addWithdrawForm" scope="request" input="/ShowAddWithdraw.do"
+			validate="true">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="AddWithdraw" path=".AddWithdraw" />
+		</action>
+		<action path="/ShowBetDetails"
+			type="ubet.http.controller.actions.ShowBetDetailsAction"
+			parameter=".ShowBetDetailsContent">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="ShowBetDetailsContent"
+				path=".ShowBetDetailsContent" />
+		</action>
+		<!-- Highlighted events -->
+		<action path="/ShowHighlightedEvents"
+			type="ubet.http.controller.actions.ShowHighlightedEventsAction"
+			scope="request" input=".ShowHighlightedEventsContent"
+			validate="false">
+			<forward name="ShowHighlightedEventsContent"
+				path=".ShowHighlightedEventsContent" />
+		</action>
+		<action path="/SetHighlighted"
+			type="ubet.http.controller.actions.SetHighlightedAction"
+			scope="request">
+			<set-property property="adminRequired" value="true" />
+		</action>
+		<action path="/EventsXML"
+			type="ubet.http.controller.actions.EventsXMLAction"
+			name="eventsXMLForm" />
+		<!-- Find recent events -->
+		<action path="/FindRecentEvents"
+			type="ubet.http.controller.actions.FindRecentEventsAction"
+			scope="request" input=".FindRecentEventsContent"
+			validate="false">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="FindRecentEventsContent" path=".FindRecentEventsContent" />
+		</action>
+		<action path="/FindFavorites"
+			type="ubet.http.controller.actions.FindFavoritesAction"
+			scope="request" input="/FindRecentEvents.do"
+			validate="false">
+			<set-property property="authenticationRequired"
+				value="true" />
+			<forward name="FindRecentEvents" path="/FindRecentEvents.do" />
+		</action>
+		<!-- ===================================================================
+			The standard administrative actions available with Struts. These must 
+			be either omitted or protected by security in a real application 
+			deployment. 
+			=================================================================== -->
+		<action path="/admin/addFormBean"
+			type="org.apache.struts.actions.AddFormBeanAction" />
+		<action path="/admin/addForward"
+			type="org.apache.struts.actions.AddForwardAction" />
+		<action path="/admin/addMapping"
+			type="org.apache.struts.actions.AddMappingAction" />
+		<action path="/admin/reload"
+			type="org.apache.struts.actions.ReloadAction" />
+		<action path="/admin/removeFormBean"
+			type="org.apache.struts.actions.RemoveFormBeanAction" />
+		<action path="/admin/removeForward"
+			type="org.apache.struts.actions.RemoveForwardAction" />
+		<action path="/admin/removeMapping"
+			type="org.apache.struts.actions.RemoveMappingAction" />
+	</action-mappings>
+	<!-- ============ Front Controller Configuration ========================== -->
+	<controller
+		processorClass="ubet.http.controller.frontcontroller.UBetRequestProcessor" />
+	<!-- ============ Message Resources Definitions =========================== -->
+	<message-resources
+		parameter="ubet.http.view.messages.Messages_english" />
+	<!-- ============================ Tiles Plugin ============================ -->
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/Struts/tiles-defs.xml" />
+	</plug-in>
+	<!-- ======================== Validator Plugin ============================ -->
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/Struts/validator-rules.xml, /WEB-INF/Struts/validation.xml" />
+	</plug-in>
+	<!-- ======================= uBet Plugin ============================ -->
+	<plug-in className="ubet.http.controller.plugin.UBetPlugIn" />
+</struts-config>

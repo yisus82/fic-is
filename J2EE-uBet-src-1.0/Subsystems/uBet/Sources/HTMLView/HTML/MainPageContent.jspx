@@ -1,0 +1,6 @@
+<!-- In a real portal, this page would display useful information. -->
+
+<p class="info" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"><jsp:output
+	omit-xml-declaration="true" /></p>

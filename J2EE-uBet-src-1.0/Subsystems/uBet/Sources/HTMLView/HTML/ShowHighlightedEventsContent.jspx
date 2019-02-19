@@ -1,0 +1,131 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:html="http://struts.apache.org/tags-html" version="2.0">
+
+	<p class="itemsTitle"><fmt:message
+		key="ShowHighlightedEventsContent.highlightedEvents" /></p>
+
+	<c:choose>
+
+		<c:when test="${empty requestScope.events}">
+			<p><fmt:message key="ShowHighlightedEventsContent.noEvents" /></p>
+		</c:when>
+
+		<!-- Print current event chunk. -->
+
+		<c:otherwise>
+
+			<table id="events">
+
+				<tr>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="eventAttributes.description" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message key="eventAttributes.category" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message key="eventAttributes.date" /></div>
+					</th>
+				</tr>
+
+				<c:forEach var="event" items="${requestScope.events}">
+					<tr>
+
+						<td id="itemTable"><c:out value="${event.description}" /></td>
+
+						<td id="itemTable"><c:out value="${event.category.name}" /></td>
+
+						<td id="itemTable"><fmt:formatDate value="${event.date.time}"
+							type="both" dateStyle="short" /></td>
+
+						<td id="itemTable"><c:url var="eventBetTypesURL"
+							value="ShowEventBetTypes.do">
+							<c:param name="eventID" value="${event.eventID}" />
+							<c:param name="description" value="${event.description}" />
+						</c:url> <a href="${eventBetTypesURL}"> <fmt:message
+							key="eventAttributes.moreBetTypes" /></a></td>
+
+						<c:if test="${sessionScope.login eq 'admin'}">
+							<td id="itemTable"><c:url var="highlightedURL"
+								value="SetHighlighted.do">
+								<c:param name="eventID" value="${event.eventID}" />
+								<c:choose>
+									<c:when test="${event.highlighted eq 'N'}">
+										<c:param name="highlighted" value="true" />
+									</c:when>
+									<c:otherwise>
+										<c:param name="highlighted" value="false" />
+									</c:otherwise>
+								</c:choose>
+							</c:url> <a href="${highlightedURL}"> <c:choose>
+								<c:when test="${event.highlighted eq 'N'}">
+									<fmt:message key="eventAttributes.setHighlighted" />
+								</c:when>
+								<c:otherwise>
+									<fmt:message key="eventAttributes.unsetHighlighted" />
+								</c:otherwise>
+							</c:choose> </a></td>
+						</c:if>
+
+					</tr>
+					<tr>
+						<c:forEach var="option" items="${event.betType.options}">
+							<c:choose>
+								<c:when test="${sessionScope.login ne 'admin'}">
+									<c:choose>
+										<c:when test="${!empty sessionScope.login}">
+											<td id="itemTable"><c:url var="betURL" value="ShowBet.do">
+												<c:param name="betOptionID" value="${option.betOptionID}" />
+												<c:param name="betTypeID" value="${event.betType.betTypeID}" />
+												<c:param name="eventID" value="${event.eventID}" />
+											</c:url> <a href="${betURL}"> <c:out
+												value="${option.description}" /> (<c:out
+												value="${option.odds}" />) </a></td>
+										</c:when>
+										<c:otherwise>
+											<td id="itemTable"><c:out value="${option.description}" /> (<c:out
+												value="${option.odds}" />)</td>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									<td id="itemTable"><c:out value="${option.description}" /> (<c:out
+										value="${option.odds}" />)</td>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${sessionScope.login eq 'admin'}">
+							<td id="itemTable"><c:url var="betTypeURL"
+								value="ShowInsertBetType.do">
+								<c:param name="eventID" value="${event.eventID}" />
+								<c:param name="eventDescription" value="${event.description}" />
+								<c:param name="categoryID" value="${event.category.categoryID}" />
+							</c:url> <a href="${betTypeURL}"> <fmt:message
+								key="eventAttributes.insertBetType" /></a></td>
+						</c:if>
+					</tr>
+					<tr />
+					<tr />
+					<tr />
+				</c:forEach>
+
+			</table>
+
+		</c:otherwise>
+
+	</c:choose>
+
+	<a href="ShowHighlightedEvents.do"> <fmt:message key="Links.moreEvents" />
+	</a>
+
+	<c:if
+		test="${!empty sessionScope.login and sessionScope.login ne 'admin'}">
+		<p><a href="FindFavorites.do"> <fmt:message
+			key="Links.recentEvents" /> </a></p>
+	</c:if>
+
+</jsp:root>

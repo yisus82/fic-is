@@ -1,0 +1,98 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:html="http://struts.apache.org/tags-html" version="2.0">
+
+	<c:if test="${!empty sessionScope.login}">
+		<p class="itemsTitle"><fmt:message
+			key="ShowMyAccountOperationsContent.myAccountOperations" /></p>
+	</c:if>
+
+	<c:choose>
+		<c:when test="${empty requestScope.operations}">
+			<p><fmt:message
+				key="ShowMyAccountOperationsContent.noAccountOperations" /></p>
+		</c:when>
+
+		<!-- Print current account operations chunk. -->
+
+		<c:otherwise>
+			<table id="operations">
+
+				<tr>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="accountOperationAttributes.amount" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="accountOperationAttributes.type" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="accountOperationAttributes.description" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="accountOperationAttributes.date" /></div>
+					</th>
+				</tr>
+
+				<c:set var="counter" value="${0}" />
+
+				<c:forEach var="operation" items="${requestScope.operations}">
+					<c:if test="${counter &lt; requestScope.count}">
+						<tr>
+							<td id="itemTable"><fmt:formatNumber value="${operation.amount}" /></td>
+
+							<td id="itemTable"><fmt:message
+								key="accountOperationAttributes.type.${operation.type}" /></td>
+
+							<td id="itemTable"><c:out value="${operation.description}" /></td>
+
+							<td id="itemTable"><fmt:formatDate value="${operation.date.time}"
+								type="both" dateStyle="short" /></td>
+
+							<c:if test="${!empty operation.betID}">
+								<td id="itemTable"><c:url var="showBetDetailsURL"
+									value="ShowBetDetails.do">
+									<c:param name="betID" value="${operation.betID}" />
+								</c:url> <a href="${showBetDetailsURL}"> <fmt:message
+									key="ShowMyAccountOperationsContent.showBetDetails" /> </a></td>
+							</c:if>
+						</tr>
+						<tr />
+						<tr />
+						<tr />
+					</c:if>
+					<c:set var="counter" value="${counter + 1}" />
+
+				</c:forEach>
+
+			</table>
+
+			<!-- "Previous" and "Next" links. -->
+
+			<div class="previousNextLinks"><span class="previousLink"> <c:if
+				test="${!empty requestScope.previous}">
+				<c:url var="accountOperationsURL" value="ShowMyAccountOperations.do">
+					<c:param name="startIndex" value="${requestScope.previous}" />
+					<c:param name="count" value="${requestScope.count}" />
+				</c:url>
+				<a href="${accountOperationsURL}"> <fmt:message key="Links.previous" />
+				</a>
+			</c:if> </span> <span class="nextLink"> <c:if
+				test="${!empty requestScope.next}">
+				<c:url var="accountOperationsURL" value="ShowMyAccountOperations.do">
+					<c:param name="startIndex" value="${requestScope.next}" />
+					<c:param name="count" value="${requestScope.count}" />
+				</c:url>
+				<a href="${accountOperationsURL}"> <fmt:message key="Links.next" />
+				</a>
+			</c:if></span></div>
+
+		</c:otherwise>
+	</c:choose>
+
+</jsp:root>

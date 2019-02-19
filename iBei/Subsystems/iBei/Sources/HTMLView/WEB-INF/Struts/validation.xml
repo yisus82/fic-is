@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE form-validation PUBLIC
+     "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0.1//EN"
+     "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+
+    <formset>
+    
+        <form name="loginForm">
+            <field property="login" depends="required">
+                <arg0 key="UserProfile.login"/>
+            </field>
+            <field property="password" depends="required">
+                <arg0 key="UserProfile.password"/>
+            </field>
+        </form>
+       
+        <form name="/RegisterUser">
+            <field property="login" depends="required">
+                <arg0 key="UserProfile.login"/>
+            </field>
+            <field property="password" depends="required, minlength">
+                <arg0 key="UserProfile.password"/>
+                <var>
+                    <var-name>minlength</var-name>
+                    <var-value>6</var-value>
+                </var>
+            </field>
+            <field property="retypePassword" depends="required, validwhen">
+                <msg name="validwhen" key="ErrorMessages.password.doNotffMatch"/>
+                <arg0 key="UserProfile.retypePassword"/>
+                <var>
+                    <var-name>test</var-name>
+                    <var-value>(*this* == password)</var-value>
+                </var>
+            </field>
+            <field property="name" depends="required">
+                <arg0 key="UserProfile.name"/>
+            </field>
+            <field property="surname" depends="required">
+                <arg0 key="UserProfile.surname"/>
+            </field>
+            <field property="email" depends="required, email">
+                <arg0 key="UserProfile.email"/>
+            </field>
+        </form>
+        
+        <form name="/RegisterSalesman">     
+           <field property="creditCardNumber" depends="required, creditCard">
+                <arg0 key="UserProfile.creditCardNumber"/>
+            </field>
+            <field property="endMonth" depends="validwhen">
+                <msg name="validwhen" key="ErrorMessages.endDate.doNotMatchCreditCard"/>
+                <arg0 key="UserProfile.endDate"/>
+                <var>
+                    <var-name>test</var-name>
+                    <var-value>(*this* != 0)</var-value>
+                </var>
+            </field>
+            <field property="endYear" depends="validwhen">
+                <msg name="validwhen" key="ErrorMessages.endDate.doNotMatchCreditCard"/>
+                <arg0 key="UserProfile.endDate"/>
+                <var>
+                    <var-name>test</var-name>
+                    <var-value>(*this* != 0)</var-value>
+                </var>
+            </field>
+        </form>
+        
+        <form name="/UpdateUserProfileDetails">
+			<field property="login" depends="required">
+                <arg0 key="UserProfile.loginName"/>
+            </field>
+            <field property="password" depends="required, minlength">
+                <arg0 key="UserProfile.password"/>
+                <var>
+                    <var-name>minlength</var-name>
+                    <var-value>6</var-value>
+                </var>
+            </field>
+            <field property="retypePassword" depends="required, validwhen">
+                <msg name="validwhen" key="ErrorMessages.password.doNotMatch"/>
+                <arg0 key="UserProfile.retypePassword"/>
+                <var>
+                    <var-name>test</var-name>
+                    <var-value>(*this* == password)</var-value>
+                </var>
+            </field>        
+            <field property="name" depends="required">
+                <arg0 key="UserProfile.firstName"/>
+            </field>
+            <field property="surname" depends="required">
+                <arg0 key="UserProfile.surname"/>
+            </field>
+            <field property="email" depends="required, email">
+                <arg0 key="UserProfile.email"/>
+            </field>
+        </form>
+
+        <form name="/UpdateSellerProfileDetails">     
+           <field property="creditCardNumber" depends="required, creditCard">
+                <arg0 key="UserProfile.creditCardNumber"/>
+            </field>
+            <field property="endMonth" depends="validwhen">
+                <msg name="validwhen" key="ErrorMessages.endDate.monthCreditCardIncorrect"/>
+                <arg0 key="UserProfile.endMonth"/>
+                <var>
+                    <var-name>test</var-name>
+                    <var-value>(*this* != 0)</var-value>
+                </var>
+            </field>
+            <field property="endYear" depends="validwhen">
+                <msg name="validwhen" key="ErrorMessages.endDate.yearCreditCardIncorrect"/>
+                <arg0 key="UserProfile.endYear"/>
+                <var>
+                    <var-name>test</var-name>
+                    <var-value>(*this* != 0)</var-value>
+                </var>
+            </field>
+        </form>
+    
+        <form name="productForm">     
+            <field property="name" depends="required">
+                <arg0 key="UserProfile.name"/>
+            </field>
+            <field property="description" depends="required">
+                <arg0 key="UserProfile.description"/>
+            </field>
+            <field property="startingPrice" depends="required,validwhen,double">
+                <msg name="validwhen" key="ErrorMessages.price.incorrect"/>
+                <arg0 key="UserProfile.initPrice"/>
+                <var>
+                    <var-name>test</var-name>
+                    <var-value>(*this* > 0)</var-value>
+                </var>
+            </field>
+            <field property="shippingInfo" depends="required">
+                <arg0 key="UserProfile.shippingInfo"/>
+            </field>
+            <field property="category" depends="required">
+                <arg0 key="UserProfile.category"/>
+            </field>                                    
+          </form>
+          
+           <form name="bidForm">     
+            <field property="maxBid" depends="required,double">
+                <arg0 key="Bid.maxBid"/>
+            </field>
+          </form>
+       
+    </formset>   
+
+</form-validation>

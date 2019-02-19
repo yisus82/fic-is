@@ -1,0 +1,176 @@
+<!-- ======================================================================= -->
+<!--                              Common properties                          -->
+<!-- ======================================================================= -->
+
+<!--
+	The following properties must be defined before referencing this file in
+	a build.xml file:
+	
+	- j2ee-ubet.home
+-->
+
+<!-- ====================== Development environment ======================== -->
+
+<!--
+	The following properties must be adapted to your environment:
+	
+	- jdbcdriver.home
+	- jdbcdriver.jars
+	- jdbcdriver.className
+	- jdbcdriver.url
+	- jdbcdriver.databaseName
+	- jdbcdriver.user
+	- jdbcdriver.password
+	- junit.home
+	- tomcat.home
+	- stdtaglibs.home
+	- struts.home
+	- jboss.home
+	- j2se.javadocurl
+	- struts.javadocurl
+	- j2ee.javadocurl
+-->
+
+<!-- JDBC driver -->
+<!-- PostgreSQL  -->
+<!--
+	<property name="jdbcdriver.home" value="/usr/local/postgresql-jdbc3"/>
+	<property name="jdbcdriver.jars" value="postgresql-8.0-312.jdbc3.jar"/>
+-->
+<!--
+<property name="jdbcdriver.home" value="C:\Archivos de programa\PostgreSQL"/>
+<property name="jdbcdriver.jars" value="postgresql-8.0-312.jdbc3.jar"/>
+<property name="jdbcdriver.className" value="org.postgresql.Driver"/>
+<property name="jdbcdriver.url" value="jdbc:postgresql://localhost/j2ee"/>
+<property name="jdbcdriver.databaseName" value="PostgreSQL"/>
+-->
+
+<!-- MySQL  -->
+<!--
+	<property name="jdbcdriver.home" 
+	value="/usr/local/mysql/mysql-connector-java-3.1.10"/>
+	<property name="jdbcdriver.jars" 
+	value="mysql-connector-java-3.1.10-bin.jar"/>
+-->
+<property name="jdbcdriver.home"
+	value="C:\Archivos de programa\MySQL\mysql-connector-java-3.1.10" />
+<property name="jdbcdriver.jars"
+	value="mysql-connector-java-3.1.10-bin.jar" />
+<property name="jdbcdriver.className" value="com.mysql.jdbc.Driver" />
+<property name="jdbcdriver.url" value="jdbc:mysql://localhost/j2ee" />
+<property name="jdbcdriver.databaseName" value="MySQL" />
+
+<!-- User and password -->
+<property name="jdbcdriver.user" value="j2ee" />
+<property name="jdbcdriver.password" value="j2ee" />
+
+<!-- Junit  -->
+<!-- 
+	<property name="junit.home" value="/usr/local/junit3.8.1"/>
+-->
+<property name="junit.home" value="C:\Archivos de programa\junit3.8.1" />
+<property name="junit.jars" value="junit.jar" />
+
+<!-- Tomcat -->
+<!--
+	<property name="tomcat.home" value="/usr/local/jakarta-tomcat-5.5.9"/>
+-->
+<property name="tomcat.home"
+	value="C:\Archivos de programa\jakarta-tomcat-5.5.9" />
+<property name="tomcat.webapps" value="${tomcat.home}/webapps" />
+
+<!-- Standard TagLibs -->
+<!--
+	<property name="stdtaglibs.home" 
+	value="/usr/local/jakarta-taglibs-standard-1.1.2"/>
+-->
+<property name="stdtaglibs.home"
+	value="C:\Archivos de programa\jakarta-taglibs-standard-1.1.2" />
+<property name="stdtaglibs.lib" value="${stdtaglibs.home}/lib" />
+<property name="stdtaglibs.jars" value="*.jar" />
+
+<!-- Struts -->
+<!--
+	<property name="struts.home" value="/usr/local/struts-1.2.7"/>
+-->
+<property name="struts.home"
+	value="C:\Archivos de programa\struts-1.2.7" />
+<property name="struts.lib" value="${struts.home}/lib" />
+<property name="struts.jars" value="*.jar" />
+
+<!-- JBoss -->
+<!--
+	<property name="jboss.home" value="/usr/local/jboss-4.0.4RC1"/>
+-->
+<property name="jboss.home"
+	value="C:\Archivos de programa\jboss-4.0.4RC1" />
+<property name="jboss.client" value="${jboss.home}/client" />
+<property name="jboss.client.jars" value="*.jar" />
+<property name="jboss.deploy"
+	value="${jboss.home}/server/default/deploy" />
+<property name="jboss.deploylib"
+	value="${jboss.home}/server/default/lib" />
+
+<!-- J2SE JavaDoc -->
+<!--
+	<property name="j2se.javadocurl" 
+	value="file:///usr/local/J2SE-5.0-doc/docs/api"/>
+-->
+<property name="j2se.javadocurl"
+	value="file:///C:/Archivos%20de%20programa/Java/Java%201.5.0%20API/" />
+
+<!-- Struts JavaDoc -->
+<!--
+	<property name="struts.javadocurl" 
+	value="file:///usr/local/struts-1.2.7-doc/api"/>
+-->
+<property name="struts.javadocurl"
+	value="file:///C:/Archivos%20de%20programa/struts-1.2.7/api/" />
+
+<!-- J2EE JavaDoc -->
+<!--
+	<property name="j2ee.javadocurl"
+	value="file:///usr/local/J2EE-1.4-doc/apidocs"/>
+-->
+<property name="j2ee.javadocurl"
+	value="file:///C:/Archivos%20de%20programa/Java/j2eeri1.4/apidocs/" />
+
+<!-- ==================== Development environment options ================== -->
+
+<!-- Java compiler -->
+<property name="build.compiler" value="modern" />
+<property name="javac.debug" value="on" />
+<property name="javac.optimize" value="off" />
+<property name="javac.deprecation" value="on" />
+
+<!-- =========================== Distribution ============================== -->
+
+<!-- Util Jars of J2EE-uBet -->
+<property name="utilJars.jars" value="${j2ee-ubet.home}/Jars/Util" />
+<property name="utilJars.standardjar" value="StandardUtil.jar" />
+<property name="utilJars.webjar" value="WebUtil.jar" />
+
+<!-- J2EE-uBet properties -->
+<property name="j2ee-ubet.name" value="J2EE-uBet" />
+<property name="j2ee-ubet.version" value="1.0" />
+<property name="j2ee-ubet.author"
+	value='&lt;a href="http://yi-sus.blogspot.com"&gt; 
+    Jesús Ángel Pérez-Roca Fernández&lt;/a&gt; 
+    (&lt;a href="mailto:djalma_fd@yahoo.es"&gt;djalma_fd@yahoo.es&lt;/a&gt;)
+    &lt;br/&gt;
+    &lt;a href="http://mcako.blogspot.com"&gt; 
+    José Antonio Pereira Suárez&lt;/a&gt; 
+    (&lt;a href="mailto:ja_pereira@eresmas.com"&gt;ja_pereira@eresmas.com&lt;/a&gt;)' />
+<property name="j2ee-ubet.backupextension" value=".bck" />
+<property name="j2ee-ubet.subsystems"
+	value="${j2ee-ubet.home}/Subsystems" />
+<property name="propertiesconfiguration.home"
+	value="${j2ee-ubet.home}/PropertiesConfiguration" />
+
+<!-- uBet subsystem properties -->
+<property name="ubet.home" value="${j2ee-ubet.subsystems}/uBet" />
+<property name="ubet.sources" value="${ubet.home}/Sources" />
+
+<!-- WastingMoney subsystem properties -->
+<property name="wastingmoney.home" value="${j2ee-ubet.subsystems}/WastingMoney" />
+<property name="wastingmoney.sources" value="${wastingmoney.home}/Sources" />

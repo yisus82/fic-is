@@ -1,0 +1,62 @@
+<ul xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:html="http://struts.apache.org/tags-html">
+
+	<jsp:output omit-xml-declaration="true" />
+
+	<li><html:link href="ShowHighlightedEvents.do">
+		<fmt:message key="DefaultSidebar.home" />
+	</html:link></li>
+
+	<li><c:url var="findChildrenOfCategoryURL"
+		value="FindChildrenOfCategory.do">
+	</c:url> <a href="${findChildrenOfCategoryURL}"> <fmt:message
+		key="DefaultSidebar.findByCategory" /> </a></li>
+
+	<c:choose>
+		<c:when test="${!empty sessionScope.login}">
+			<c:choose>
+				<c:when test="${sessionScope.login ne 'admin'}">
+					<li><html:link href="EditUserProfileForUpdating.do?action=UPDATE">
+						<fmt:message key="DefaultSidebar.updateProfile" />
+					</html:link></li>
+					<li><html:link href="EditAccountForCreation.do?action=CREATE">
+						<fmt:message key="DefaultSidebar.createAccount" />
+					</html:link></li>
+					<li><html:link href="EditAccountForUpdating.do?action=UPDATE">
+						<fmt:message key="DefaultSidebar.updateAccount" />
+					</html:link></li>
+					<li><html:link href="ShowAddWithdraw.do">
+						<fmt:message key="DefaultSidebar.addWithdraw" />
+					</html:link></li>
+					<li><html:link href="ShowMyAccounts.do">
+						<fmt:message key="DefaultSidebar.myAccounts" />
+					</html:link></li>
+					<li><html:link href="ShowMyAccountOperations.do">
+						<fmt:message key="DefaultSidebar.myAccountOperations" />
+					</html:link></li>
+					<li><html:link href="ShowMyBets.do">
+						<fmt:message key="DefaultSidebar.myBets" />
+					</html:link></li>
+				</c:when>
+				<c:otherwise>
+					<li><html:link href="ShowChangePassword.do">
+						<fmt:message key="DefaultSidebar.changePassword" />
+					</html:link></li>
+				</c:otherwise>
+			</c:choose>
+			<li><html:link href="Logout.do">
+				<fmt:message key="DefaultSidebar.logout" />
+			</html:link></li>
+		</c:when>
+		<c:otherwise>
+
+			<li><html:link href="ShowAuthentication.do">
+				<fmt:message key="DefaultSidebar.authenticate" />
+			</html:link></li>
+		</c:otherwise>
+	</c:choose>
+
+</ul>

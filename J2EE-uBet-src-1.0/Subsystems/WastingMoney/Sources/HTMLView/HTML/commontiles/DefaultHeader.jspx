@@ -1,0 +1,8 @@
+<fmt:message xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    key="DefaultHeader.header">
+
+<jsp:output omit-xml-declaration="true"/>
+
+</fmt:message>

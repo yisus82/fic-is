@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+	<distributable />
+
+	<!-- ======================= Standard TagLibs configuration ============== -->
+
+	<context-param>
+		<param-name>
+			javax.servlet.jsp.jstl.fmt.localizationContext
+		</param-name>
+		<param-value>ubet.http.view.messages.Messages_english</param-value>
+	</context-param>
+
+	<!-- ===================== Front controller configuration =============== -->
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/Struts/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<!-- ====================== Standard Action Servlet Mapping ============== -->
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- ============================= Session =============================== -->
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<!-- ========================== Welcome page ============================= -->
+
+	<welcome-file-list>
+		<welcome-file>Index.jspx</welcome-file>
+	</welcome-file-list>
+
+	<!-- ========================== Environment entries ====================== -->
+
+	<env-entry>
+		<env-entry-name>
+			AdminFacadeDelegateFactory/delegateClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.adminfacade.ejb.EJBAdminFacadeDelegate
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+
+	<env-entry>
+		<env-entry-name>
+			EJBAdminFacadeDelegate/adminFacadeJNDIName
+		</env-entry-name>
+		<env-entry-value>EJBuBet/AdminFacadeEJB/local</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+
+	<env-entry>
+		<env-entry-name>
+			SearchFacadeDelegateFactory/delegateClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.searchfacade.ejb.EJBSearchFacadeDelegate
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+
+	<env-entry>
+		<env-entry-name>
+			EJBSearchFacadeDelegate/searchFacadeJNDIName
+		</env-entry-name>
+		<env-entry-value>EJBuBet/SearchFacadeEJB/local</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>
+			TestFacadeDelegateFactory/delegateClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.test.testfacade.ejb.EJBTestFacadeDelegate
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+
+	<env-entry>
+		<env-entry-name>
+			EJBTestFacadeDelegate/testFacadeJNDIName
+		</env-entry-name>
+		<env-entry-value>EJBuBet/TestFacadeEJB/local</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+
+	<env-entry>
+		<env-entry-name>
+			UserFacadeDelegateFactory/delegateClassName
+		</env-entry-name>
+		<env-entry-value>
+			ubet.model.userfacade.ejb.EJBUserFacadeDelegate
+		</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+
+	<env-entry>
+		<env-entry-name>
+			EJBUserFacadeDelegate/userFacadeJNDIName
+		</env-entry-name>
+		<env-entry-value>EJBuBet/UserFacadeEJB/local</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+
+</web-app>

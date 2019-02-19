@@ -1,0 +1,11 @@
+<div class="field"><span class="label"> <fmt:message
+	key="Account.creditCardNumber" /> </span> <span class="entry"> <html:text
+	property="creditCardNumber" size="16" maxlength="20" /> <html:errors
+	property="creditCardNumber" /> </span></div>
+<div class="field"><span class="label"> <fmt:message
+	key="Account.expirationDate" /> </span><span class="entry"><html:select
+	property="endMonth">
+	<html:options name="dateRanges" property="months" />
+</html:select> <![CDATA[ &nbsp; ]]> <html:select property="endYear">
+	<html:options name="dateRanges" property="nextYears" />
+</html:select> <html:errors property="expirationDate" /></span></div>

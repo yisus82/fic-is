@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+<!ENTITY CommonProperties SYSTEM "CommonProperties.xml">
+<!ENTITY CommonPathReferences SYSTEM "CommonPathReferences.xml">
+]>
+
+<!-- ======================================================================= -->
+<!--			     "J2EE-uBet" build file 			                     -->
+<!-- ======================================================================= -->
+
+<project name="J2EE-uBet" default="compile" basedir=".">
+
+	<!-- ============================  Properties ============================== -->
+
+	<property name="j2ee-ubet.home" value="${basedir}/.." />
+	    &CommonProperties;
+	    &CommonPathReferences;
+	    
+	<property name="j2ee-ubet.build" value="${j2ee-ubet.home}/Build" />
+	<property name="j2ee-ubet.javadoc" value="${j2ee-ubet.build}/JavaDoc" />
+	<property name="j2ee-ubet.sourcedistname" value="${j2ee-ubet.name}-src-${j2ee-ubet.version}" />
+	<property name="j2ee-ubet.sourcedist" value="${j2ee-ubet.build}/${j2ee-ubet.sourcedistname}" />
+
+	<!-- ============================ "init" target ============================ -->
+
+	<target name="init">
+		<echo>
+	--------------------------------------------------------------------------------
+	Running build file for entire project ...
+	--------------------------------------------------------------------------------
+	    </echo>
+	</target>
+
+	<!-- ============================ "all" target ============================= -->
+
+	<target name="all" depends="rebuild, jars, wars, ears, javadoc" />
+
+	<!-- ========================== "compile" target =========================== -->
+
+	<target name="compile" depends="init">
+		<ant dir="${ubet.sources}" target="compile" />
+		<ant dir="${wastingmoney.sources}" target="compile" />
+	</target>
+
+	<!-- =========================== "rebuild" target ========================== -->
+
+	<target name="rebuild" depends="init">
+		<ant dir="${ubet.sources}" target="rebuild" />
+		<ant dir="${wastingmoney.sources}" target="rebuild" />
+	</target>
+
+	<!-- ============================ "jars" target ============================ -->
+
+	<target name="jars" depends="init">
+		<ant dir="${ubet.sources}" target="jars" />
+	</target>
+
+	<!-- ============================ "wars" target ============================ -->
+
+	<target name="wars" depends="init">
+		<ant dir="${ubet.sources}" target="wars" />
+		<ant dir="${wastingmoney.sources}" target="wars" />
+	</target>
+	
+	<!-- ============================ "ears" target ============================ -->
+
+		<target name="ears" depends="init">
+			<ant dir="${ubet.sources}" target="ears" />
+		</target>
+
+	<!-- ========================= "javadoc" target ============================ -->
+
+	<target name="javadoc" depends="compile">
+		<delete dir="${j2ee-ubet.javadoc}" />
+		<mkdir dir="${j2ee-ubet.javadoc}" />
+		<javadoc packagenames="*" classpathref="j2ee-ubet.classpath" destdir="${j2ee-ubet.javadoc}" private="yes" windowtitle="${j2ee-ubet.name} v${j2ee-ubet.version}" doctitle="${j2ee-ubet.name} v${j2ee-ubet.version}" header="${j2ee-ubet.name} v${j2ee-ubet.version}" bottom="${j2ee-ubet.author}">
+			<group title="uBet Subsystem" packages="ubet.*" />
+			<group title="Wasting Money Subsystem" packages="wastingmoney.*" />
+			<link href="${j2se.javadocurl}" />
+			<link href="${j2ee.javadocurl}" />
+			<link href="${struts.javadocurl}" />
+			<sourcepath>
+				<dirset dir="${j2ee-ubet.subsystems}">
+					<include name="*/Sources" />
+				</dirset>
+			</sourcepath>
+		</javadoc>
+	</target>
+
+	<!-- ========================= "sourcedist" target ========================= -->
+
+	<target name="sourcedist" depends="init">
+
+		<!-- Common files for all distributions -->
+		<patternset id="j2ee-ubet.sourcedist.commonfiles" includes="${j2ee-ubet.sourcedistname}/**" excludes="**/Build/**, **/*${j2ee-ubet.backupextension},
+	                      **/*.sh, **/*.bat, **/WEB-INF/Struts/validator-rules.xml" />
+
+		<!-- Create Build directory (if necessary) -->
+		<mkdir dir="${j2ee-ubet.build}" />
+
+		<!-- .tar.gz distribution (with execution permissions for .sh files) -->
+		<delete file="${j2ee-ubet.sourcedist}.tar.gz" />
+		<tar tarfile="${j2ee-ubet.sourcedist}.tar.gz" longfile="gnu" compression="gzip">
+			<tarfileset dir="${j2ee-ubet.home}/..">
+				<patternset refid="j2ee-ubet.sourcedist.commonfiles" />
+			</tarfileset>
+			<tarfileset dir="${j2ee-ubet.home}/.." mode="755" includes="${j2ee-ubet.sourcedistname}/**/*.sh" />
+		</tar>
+
+		<!-- .zip distribution -->
+		<delete file="${j2ee-ubet.sourcedist}.zip" />
+		<zip destfile="${j2ee-ubet.sourcedist}.zip">
+			<fileset dir="${j2ee-ubet.home}/..">
+				<patternset refid="j2ee-ubet.sourcedist.commonfiles" />
+			</fileset>
+			<fileset dir="${j2ee-ubet.home}/.." includes="${j2ee-ubet.sourcedistname}/**/*.bat" />
+		</zip>
+
+	</target>
+
+	<!-- ============================ "cleardb" target ============================ -->
+
+	<target name="cleardb" depends="init">
+		<ant dir="${ubet.sources}" target="cleardb" />
+	</target>
+
+	<!-- ============================ "initdb" target ============================= -->
+
+	<target name="initdb" depends="init, cleardb">
+		<ant dir="${ubet.sources}" target="initdb" />
+	</target>
+
+</project>

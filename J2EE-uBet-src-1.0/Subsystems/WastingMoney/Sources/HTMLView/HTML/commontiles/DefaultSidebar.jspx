@@ -1,0 +1,20 @@
+<ul xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:html="http://struts.apache.org/tags-html">
+
+	<jsp:output omit-xml-declaration="true" />
+
+	<li><html:link action="Welcome.do">
+		<fmt:message key="DefaultSidebar.home" />
+	</html:link></li>
+
+	<li><html:link action="ShowHighlightedEvents.do">
+		<fmt:message key="DefaultSidebar.highlightedEvents" />
+	</html:link></li>
+
+	<li><html:link action="ShowRecentEvents.do">
+		<fmt:message key="DefaultSidebar.recentEvents" />
+	</html:link></li>
+
+</ul>

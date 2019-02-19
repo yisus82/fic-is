@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry path="/iBei" exported="true" combineaccessrules="false" kind="src"/>
+	<classpathentry path="Subsystems/uBet/Sources" kind="src"/>
+	<classpathentry path="Subsystems/WastingMoney/Sources" kind="src"/>
+	<classpathentry path="PropertiesConfiguration" kind="src"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
+	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/JSTL" kind="con"/>
+	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/JUnit" kind="con"/>
+	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/Struts" kind="con"/>
+	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/Tomcat" kind="con"/>
+	<classpathentry sourcepath="C:/Files/Universidad/Practicas/IS/J2EE-Examples-src-2.0/Subsystems/Util/Sources" path="Jars/Util/StandardUtil.jar" kind="lib"/>
+	<classpathentry sourcepath="C:/Files/Universidad/Practicas/IS/J2EE-Examples-src-1.5.3/Subsystems/Util/Sources" path="Jars/Util/WebUtil.jar" kind="lib"/>
+	<classpathentry path="org.eclipse.jdt.USER_LIBRARY/JBoss" kind="con"/>
+	<classpathentry path="Build" kind="output"/>
+</classpath>

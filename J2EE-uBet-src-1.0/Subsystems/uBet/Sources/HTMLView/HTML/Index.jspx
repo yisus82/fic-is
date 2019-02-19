@@ -1,0 +1,2 @@
+<jsp:forward xmlns:jsp="http://java.sun.com/JSP/Page"
+	page="ShowHighlightedEvents.do" />

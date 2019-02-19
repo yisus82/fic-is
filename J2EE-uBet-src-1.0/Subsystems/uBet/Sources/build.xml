@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+<!ENTITY CommonProperties SYSTEM "../../CommonProperties.xml">
+<!ENTITY CommonPathReferences SYSTEM "../../CommonPathReferences.xml">
+]>
+
+<!-- ======================================================================= -->
+<!--			     "uBet" build file 			                             -->
+<!-- ======================================================================= -->
+
+<project name="uBet" default="compile" basedir=".">
+
+	<!-- ============================  Properties ============================== -->
+	<property name="j2ee-ubet.home" value="${basedir}/../../.." />
+	    &CommonProperties;
+	    &CommonPathReferences;
+	    
+    <property name="ubet.projectname" value="uBet" />
+	<property name="ubet.htmlview" value="${ubet.sources}/HTMLView" />
+	<property name="ubet.ejbconfiguration"
+	          value="${ubet.sources}/EJBConfiguration" />
+	<property name="ubet.scripts" value="${ubet.home}/Scripts" />
+	<property name="ubet.build" value="${ubet.home}/Build" />
+	<property name="ubet.classes" value="${ubet.build}/Classes" />
+	<property name="ubet.jars" value="${ubet.build}/Jars" />
+	<property name="ubet.entitiesjar" value="${ubet.jars}/Entities.jar" />
+	<property name="ubet.ejbmodeljar" value="${ubet.jars}/EJBModel.jar" />
+	<property name="ubet.wars" value="${ubet.build}/Wars" />
+	<property name="ubet.plainwebappname" value="PlainuBet" />
+	<property name="ubet.ejbwebappname" value="EJBuBet" />
+	<property name="ubet.plainwar"
+	          value="${ubet.wars}/${ubet.plainwebappname}.war" />
+	<property name="ubet.ejbwar"
+	          value="${ubet.wars}/${ubet.ejbwebappname}.war" />
+	<property name="ubet.ears" value="${ubet.build}/Ears" />
+	<property name="ubet.ejbear" value="${ubet.ears}/EJBuBet.ear" />
+	<property name="ubet.javadoc" value="${ubet.build}/JavaDoc" />
+
+	<!-- ============================ "init" target ============================ -->
+
+	<target name="init">
+		<echo>
+		--------------------------------------------------------------------------------
+		Running build file for subsystem "${ubet.projectname}" ...
+		--------------------------------------------------------------------------------
+        </echo>
+	</target>
+
+	<!-- ========================== "compile" target =========================== -->
+
+	<target name="compile" depends="init">
+		<mkdir dir="${ubet.classes}" />
+		<javac srcdir="${ubet.sources}"
+		       destdir="${ubet.classes}"
+		       classpathref="j2ee-ubet.classpath"
+		       debug="${javac.debug}"
+		       optimize="${javac.optimize}"
+		       deprecation="${javac.deprecation}" />
+	</target>
+
+	<!-- ========================= "cleanclasses" target ======================== -->
+
+	<target name="cleanclasses" depends="init">
+		<delete dir="${ubet.classes}" />
+	</target>
+
+	<!-- ========================== "rebuild" target =========================== -->
+
+	<target name="rebuild" depends="cleanclasses, compile" />
+
+	<!-- ============================ "jars" target ============================ -->
+
+	<target name="jars" depends="entitiesjar, ejbmodeljar" />
+
+	<!-- ======================== "entitiesjar" target ====================== -->
+
+	<target name="entitiesjar" depends="compile">
+		<mkdir dir="${ubet.jars}" />
+		<mkdir dir="${ubet.classes}/META-INF" />
+		<copy todir="${ubet.classes}/META-INF">
+			<fileset dir="${ubet.ejbconfiguration}"
+			         includes="persistence.xml" />
+		</copy>
+		<jar jarfile="${ubet.entitiesjar}"
+		     basedir="${ubet.classes}"
+		     includes="META-INF/*.xml, **/entity/*" />
+		<delete dir="${ubet.classes}/META-INF" />
+	</target>
+
+	<!-- ========================== "ejbmodeljar" target ======================= -->
+
+	<target name="ejbmodeljar" depends="compile">
+		<mkdir dir="${ubet.jars}" />
+		<jar jarfile="${ubet.ejbmodeljar}"
+		     basedir="${ubet.classes}"
+		     includes="ubet/model/**, ubet/test/**"
+		     excludes="**/entity/**, **/plain/**, **/dao/**, **/delegate/**"
+		     manifest="${ubet.ejbconfiguration}/MANIFEST.MF" />
+	</target>
+
+	<!-- ========================= "plainwar" target =========================== -->
+
+	<target name="plainwar" depends="compile">
+		<mkdir dir="${ubet.wars}" />
+		<copy todir="${ubet.htmlview}/WEB-INF/Struts">
+			<fileset dir="${struts.lib}" includes="validator-rules.xml" />
+		</copy>
+		<war warfile="${ubet.plainwar}"
+		     webxml="${ubet.htmlview}/WEB-INF/plainweb.xml">
+			<fileset dir="${ubet.htmlview}/HTML"
+			         excludes="**/*${j2ee-ubet.backupextension}" />
+			<webinf dir="${ubet.htmlview}/WEB-INF"
+			        excludes="*web.xml, **/*${j2ee-ubet.backupextension}" />
+			<webinf dir="${ubet.scripts}"
+			        includes="**"
+			        excludes="**/*${j2ee-ubet.backupextension}" />
+			<lib dir="${stdtaglibs.lib}" includes="${stdtaglibs.jars}" />
+			<lib dir="${struts.lib}" includes="${struts.jars}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.standardjar}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.webjar}" />
+			<classes dir="${ubet.classes}" excludes="**/ejb/**, **/entity/**" />
+			<classes dir="${ubet.sources}"
+			         includes="ubet/http/view/messages/**"
+			         excludes="**/*${j2ee-ubet.backupextension}" />
+		</war>
+	</target>
+
+	<!-- ====================== "deployplainwar" target ======================== -->
+
+	<target name="deployplainwar" depends="plainwar">
+		<mkdir dir="${tomcat.webapps}/${ubet.plainwebappname}" />
+		<unwar src="${ubet.plainwar}"
+		       dest="${tomcat.webapps}/${ubet.plainwebappname}" />
+	</target>
+
+	<!-- ========================== "ejbwar" target ============================ -->
+
+	<target name="ejbwar" depends="compile">
+		<mkdir dir="${ubet.wars}" />
+		<war warfile="${ubet.ejbwar}"
+		     webxml="${ubet.htmlview}/WEB-INF/ejbweb.xml"
+		     manifest="${ubet.ejbconfiguration}/MANIFEST.MF">
+			<fileset dir="${ubet.htmlview}/HTML"
+			         excludes="**/*${j2ee-ubet.backupextension}" />
+			<webinf dir="${ubet.htmlview}/WEB-INF"
+			        excludes="*web.xml, **/*${j2ee-ubet.backupextension}" />
+			<webinf dir="${ubet.scripts}"
+			        includes="Database/**"
+			        excludes="**/*${j2ee-ubet.backupextension}" />
+			<lib dir="${stdtaglibs.lib}" includes="${stdtaglibs.jars}" />
+			<lib dir="${struts.lib}" includes="${struts.jars}" />
+			<!-- 
+	IMPORTANT: ${utilJars.standardjar} library must not be included since it is
+	referenced from MANIFEST.MF.
+	            <lib dir="${utilJars.jars}" includes="${utilJars.standardjar}"/>
+	-->
+			<lib dir="${utilJars.jars}" includes="${utilJars.webjar}" />
+			<classes dir="${ubet.classes}"
+			         includes="
+					ubet/model/adminfacade/delegate/*,
+	            	ubet/model/adminfacade/ejb/EJBAdminFacadeDelegate.class,
+	            	ubet/model/searchfacade/delegate/*,
+	            	ubet/model/searchfacade/ejb/EJBSearchFacadeDelegate.class,
+					ubet/test/testfacade/delegate/*,
+					ubet/test/testfacade/ejb/EJBTestFacadeDelegate.class,
+					ubet/model/userfacade/delegate/*,
+		            ubet/model/userfacade/ejb/EJBUserFacadeDelegate.class,
+	            	ubet/http/**" />
+			<classes dir="${ubet.sources}"
+			         includes="ubet/http/view/messages/**"
+			         excludes="**/*${j2ee-ubet.backupextension}" />
+		</war>
+	</target>
+
+	<!-- ============================ "wars" target ============================ -->
+
+	<target name="wars" depends="deployplainwar, deployejbear" />
+
+	<!-- ========================== "ejbear" target ============================ -->
+
+	<target name="ejbear" depends="entitiesjar, ejbmodeljar, ejbwar">
+		<mkdir dir="${ubet.ears}" />
+		<ear destfile="${ubet.ejbear}"
+		     appxml="${ubet.ejbconfiguration}/application.xml">
+			<metainf dir="${ubet.ejbconfiguration}" includes="jboss-app.xml" />
+			<fileset file="${utilJars.jars}/${utilJars.standardjar}" />
+			<fileset file="${ubet.entitiesjar}" />
+			<fileset file="${ubet.ejbmodeljar}" />
+			<fileset file="${ubet.ejbwar}" />
+		</ear>
+	</target>
+
+	<!-- ======================= "deployejbear" target ======================== -->
+
+	<target name="deployejbear" depends="ejbear">
+		<copy file="${ubet.ejbear}" todir="${jboss.deploy}" />
+	</target>
+
+	<!-- =========================== "ears" target ============================= -->
+
+	<target name="ears" depends="ejbear" />
+
+	<!-- ========================= "javadoc" target ============================ -->
+
+	<target name="javadoc" depends="compile">
+		<delete dir="${ubet.javadoc}" />
+		<mkdir dir="${ubet.javadoc}" />
+		<javadoc packagenames="*"
+		         sourcepath="${ubet.sources}"
+		         classpathref="j2ee-ubet.classpath"
+		         destdir="${ubet.javadoc}"
+		         private="yes"
+		         windowtitle="uBet Subsystem"
+		         doctitle="uBet Subsystem"
+		         header="uBet Subsystem"
+		         bottom="${j2ee-ubet.author}">
+			<link href="${j2se.javadocurl}" />
+			<link href="${j2ee.javadocurl}" />
+			<link href="${struts.javadocurl}" />
+		</javadoc>
+	</target>
+
+	<!-- =========================== "clean" target =========================== -->
+
+	<target name="clean" depends="init">
+		<delete dir="${ubet.build}" />
+	</target>
+
+	<!-- ============================ "cleardb" target ========================== -->
+
+	<!-- IMPORTANT: 
+			    
+			         - All "java" tasks set "fork" to "true". Otherwise, problems occur 
+			           in the creation of the SAX parser. Furthermore, it is required if
+			           the "dir" attribute is used.
+			           
+			         - All "sql" tasks specify onerror="continue" since SQL scripts
+			           try to drop tables before creating them (which causes errors if
+			           such tables do not exist yet).
+			           
+			         - All "sql" tasks specify autocommit="true" since some drivers (e.g 
+			           the PostgreSQL JDBC 2 driver) do not commit changes if some error 
+			           ocurrs.
+			           
+			    -->
+
+	<target name="cleardb" depends="init">
+
+		<sql driver="${jdbcdriver.className}"
+		     url="${jdbcdriver.url}"
+		     userid="${jdbcdriver.user}"
+		     password="${jdbcdriver.password}"
+		     classpathref="j2ee-ubet.classpath"
+		     onerror="continue"
+		     autocommit="true">
+			<fileset dir="${ubet.home}"
+			         includes="**/${jdbcdriver.databaseName}DeleteTables.sql" />
+		</sql>
+
+	</target>
+
+	<!-- ============================ "initdb" target ========================== -->
+
+	<target name="initdb" depends="init, cleardb">
+
+		<sql driver="${jdbcdriver.className}"
+		     url="${jdbcdriver.url}"
+		     userid="${jdbcdriver.user}"
+		     password="${jdbcdriver.password}"
+		     classpathref="j2ee-ubet.classpath"
+		     onerror="continue"
+		     autocommit="true">
+			<fileset dir="${ubet.home}"
+			         includes="**/${jdbcdriver.databaseName}CreateTables.sql" />
+		</sql>
+
+	</target>
+
+	<!-- ============================ "test" target =============================== -->
+
+	<target name="test" depends="compile">
+		<!--<java fork="yes"
+		      classpathref="j2ee-ubet.classpath"
+		      classname="ubet.test.MainTest" />-->
+		<junit printsummary="withOutAndErr" fork="yes">
+			<classpath refid="j2ee-ubet.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="ubet.test.MainTest" />
+		</junit>
+	</target>
+
+</project>

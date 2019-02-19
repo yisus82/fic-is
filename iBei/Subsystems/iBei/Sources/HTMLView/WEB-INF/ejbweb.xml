@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+  <distributable/>
+  
+  <!-- ======================= Standard TagLibs configuration ============== -->
+  
+  <context-param>
+      <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+      <param-value>eibai.http.view.messages.Messages</param-value>
+  </context-param>
+
+  <!-- ======================== Front controller configuration ============= -->
+
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/Struts/struts-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>detail</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+
+  <!-- ====================== Servlet mapping ============================== -->
+
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <!-- ============================= Session =============================== -->
+
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+
+  <!-- =========================== Welcome page ============================ -->
+
+  <welcome-file-list>
+    <welcome-file>Index.jspx</welcome-file>
+  </welcome-file-list>
+
+  <!-- =========================== Environmet entries ====================== -->
+
+
+<!-- minutos destacados (tiempo de refresco)-->
+ <env-entry>
+    <env-entry-name>Destacados/minutos</env-entry-name>
+    <env-entry-value>2</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+<!-- cantidad de productos destacados en portadada -->
+ <env-entry>
+    <env-entry-name>Destacados/cantidad</env-entry-name>
+    <env-entry-value>5</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry> 
+  
+ <env-entry>
+    <env-entry-name>ProductoFacadeDelegateFactory/delegateClassName</env-entry-name>
+    <env-entry-value>eibai.model.productoFacade.ejb.EJBProductoFacadeDelegate</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+
+  <env-entry>
+    <env-entry-name>EJBProductoFacadeDelegate/productoFacadeHomeJNDIName</env-entry-name>
+    <env-entry-value>ejb/ProductoFacadeHome</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+  
+   <env-entry>
+    <env-entry-name>UsuarioFacadeDelegateFactory/delegateClassName</env-entry-name>
+    <env-entry-value>eibai.model.usuarioFacade.ejb.EJBUsuarioFacadeDelegate</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+
+  <env-entry>
+    <env-entry-name>EJBUsuarioFacadeDelegate/usuarioFacadeHomeJNDIName</env-entry-name>
+    <env-entry-value>ejb/UsuarioFacadeHome</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+  
+<!-- Variables necesarias ya que no se migran a EJB los daos de categorias, paises y rangos -->
+  <env-entry>
+    <env-entry-name>SQLRangoDAOFactory/daoClassName</env-entry-name>
+    <env-entry-value>eibai.gestionRangos.model.dao.SQLRangoGenericoDAO</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+
+ <env-entry>
+    <env-entry-name>SQLPaisDAOFactory/daoClassName</env-entry-name>
+    <env-entry-value>eibai.gestionPaises.model.dao.SQLPaisGenericoDAO</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+
+  <env-entry>
+    <env-entry-name>SQLCategoriaDAOFactory/daoClassName</env-entry-name>
+    <env-entry-value>eibai.gestionCategorias.model.dao.SQLCategoriaGenericoDAO</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+
+	<env-entry>
+       <env-entry-name>GenericProductoDAOFactory/daoClassName</env-entry-name>
+       <env-entry-type>java.lang.String</env-entry-type>
+      <env-entry-value>eibai.model.producto.dao.ejb.SQLGenericProductoDAO</env-entry-value>
+    </env-entry>
+	<env-entry>
+        <env-entry-name>EJBSQLProductoDAOFactory/daoClassName</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>eibai.model.producto.dao.ejb.EJBSQLProductoGenericoDAO</env-entry-value>
+     </env-entry>
+
+	 <env-entry>
+         <env-entry-name>GenericPujaDAOFactory/daoClassName</env-entry-name>
+         <env-entry-type>java.lang.String</env-entry-type>
+         <env-entry-value>eibai.model.puja.dao.ejb.SQLGenericPujaDAO</env-entry-value>
+      </env-entry>
+      <env-entry>
+           <env-entry-name>EJBSQLPujaDAOFactory/daoClassName</env-entry-name>
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>eibai.model.puja.dao.ejb.EJBSQLPujaGenericoDAO</env-entry-value>
+      </env-entry>   
+  
+	<env-entry>
+         <env-entry-name>GenericCategoriaVisitadaDAOFactory/daoClassName</env-entry-name>
+         <env-entry-type>java.lang.String</env-entry-type>
+         <env-entry-value>eibai.model.categoriaVisitada.dao.ejb.SQLGenericCategoriaVisitadaDAO</env-entry-value>
+     </env-entry>
+	<env-entry>
+          <env-entry-name>EJBSQLCategoriaVisitadaDAOFactory/daoClassName</env-entry-name>
+          <env-entry-type>java.lang.String</env-entry-type>
+          <env-entry-value>eibai.model.categoriaVisitada.dao.ejb.EJBSQLCategoriaVisitadaGenericoDAO</env-entry-value>
+    </env-entry>   
+  
+	<env-entry>
+         <env-entry-name>GenericProductoVisitadoDAOFactory/daoClassName</env-entry-name>
+         <env-entry-type>java.lang.String</env-entry-type>
+         <env-entry-value>eibai.model.productoVisitado.dao.ejb.SQLGenericProductoVisitadoDAO</env-entry-value>
+     </env-entry>
+	<env-entry>
+          <env-entry-name>EJBSQLProductoVisitadoDAOFactory/daoClassName</env-entry-name>
+          <env-entry-type>java.lang.String</env-entry-type>
+          <env-entry-value>eibai.model.productoVisitado.dao.ejb.EJBSQLProductoVisitadoGenericoDAO</env-entry-value>
+    </env-entry>   
+
+</web-app>

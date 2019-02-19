@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<PropertyVisitorAcceptor>
+	<mdElement elementClass='PropertyManager'>
+		<name>GENERAL</name>
+		<propertyManagerID>_10_0_873026a_1143471439421_293283_120</propertyManagerID>
+		<mdElement elementClass='WORKING_ROOT'>
+			<propertyID>WORKING_ROOT</propertyID>
+			<useUnspecified xmi:value='false'/>
+			<containment xmi:value='false'/>
+			<typeElement xmi:value='false'/>
+			<parentApplicant xmi:value='false'/>
+			<value>eee_1045467100313_135436_1</value>
+		</mdElement>
+		<mdElement elementClass='REFERENCE_PATH'>
+			<propertyID>REFERENCE_PATH</propertyID>
+			<containment xmi:value='false'/>
+			<ordered xmi:value='false'/>
+			<value>eee_1045467100313_135436_1</value>
+		</mdElement>
+		<mdElement elementClass='ChoiceProperty'>
+			<propertyID>GENERATE_IMPORTS</propertyID>
+			<propertyDescriptionID>GENERATE_IMPORTS_DESCRIPTION</propertyDescriptionID>
+			<value>FULL_CLASS_NAME</value>
+			<choice xmi:value='DO_NOT_GENERATE^FULL_CLASS_NAME^PACKAGE_NAME'/>
+			<index xmi:value='1'/>
+		</mdElement>
+		<mdElement elementClass='StringProperty'>
+			<propertyID>UNNAMED_ELEMENT_NAME</propertyID>
+			<propertyDescriptionID>UNNAMED_ELEMENT_NAME_DESCRIPTION</propertyDescriptionID>
+			<value>_unnamed_</value>
+			<multiline xmi:value='false'/>
+		</mdElement>
+		<mdElement elementClass='StringProperty'>
+			<propertyID>UNNAMED_TYPE_NAME</propertyID>
+			<propertyDescriptionID>UNNAMED_TYPE_NAME_DESCRIPTION</propertyDescriptionID>
+			<value>int</value>
+			<multiline xmi:value='false'/>
+		</mdElement>
+		<mdElement elementClass='ChoiceProperty'>
+			<propertyID>UPDATE_MODEL</propertyID>
+			<propertyDescriptionID>UPDATE_MODEL_DESCRIPTION</propertyDescriptionID>
+			<value>MERGE_MODEL_AND_CODE</value>
+			<choice xmi:value='UPDATE_MODEL_BY_CODE^MERGE_MODEL_AND_CODE'/>
+			<index xmi:value='1'/>
+		</mdElement>
+		<mdElement elementClass='ChoiceProperty'>
+			<propertyID>DEFAULT_FIELD_MAPPING</propertyID>
+			<propertyDescriptionID>DEFAULT_FIELD_MAPPING_DESCRIPTION</propertyDescriptionID>
+			<value>FIELD_AS_ATTRIBUTE</value>
+			<choice xmi:value='FIELD_AS_ATTRIBUTE^FIELD_AS_ASSOCIATION'/>
+			<index xmi:value='0'/>
+		</mdElement>
+		<mdElement elementClass='ChoiceProperty'>
+			<propertyID>SYNCHRONIZATION_MODE</propertyID>
+			<propertyDescriptionID>SYNCHRONIZATION_MODE_DESCRIPTION</propertyDescriptionID>
+			<value>SYNCHRONIZATION_MODE_SEMIAUTOMATIC_CODE</value>
+			<choice xmi:value='SYNCHRONIZATION_MODE_AUTOMATIC^SYNCHRONIZATION_MODE_MANUAL^SYNCHRONIZATION_MODE_SEMIAUTOMATIC_CODE'/>
+			<index xmi:value='2'/>
+		</mdElement>
+		<mdElement elementClass='BooleanProperty'>
+			<propertyID>LIBRARY_CLASS_MEMBERS</propertyID>
+			<propertyDescriptionID>LIBRARY_CLASS_MEMBERS_DESCRIPTION</propertyDescriptionID>
+			<value xmi:value='false'/>
+		</mdElement>
+		<mdElement elementClass='ChoiceProperty'>
+			<propertyID>DEFAULT_SOURCE_PATH</propertyID>
+			<propertyDescriptionID>DEFAULT_SOURCE_PATH_DESCRIPTION</propertyDescriptionID>
+			<value>C:/Files/Universidad/Practicas/IS/uBet/Subsystems/uBet/Sources</value>
+			<choice xmi:value='C:/Files/Universidad/Practicas/IS/uBet/Subsystems/uBet/Sources^C:/Files/Universidad/Practicas/IS/uBet/PropertiesConfiguration'/>
+			<index xmi:value='-1'/>
+		</mdElement>
+	</mdElement>
+</PropertyVisitorAcceptor>

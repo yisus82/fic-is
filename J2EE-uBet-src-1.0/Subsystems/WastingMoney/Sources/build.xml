@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+<!ENTITY CommonProperties SYSTEM "../../CommonProperties.xml">
+<!ENTITY CommonPathReferences SYSTEM "../../CommonPathReferences.xml">
+]>
+
+<!-- ======================================================================= -->
+<!--			     "WastingMoney" build file 			                             -->
+<!-- ======================================================================= -->
+
+<project name="WastingMoney" default="compile" basedir=".">
+
+	<!-- ============================  Properties ============================== -->
+	<property name="j2ee-ubet.home" value="${basedir}/../../.." />
+	    &CommonProperties;
+	    &CommonPathReferences;
+	    
+    <property name="wastingmoney.projectname" value="WastingMoney" />
+	<property name="wastingmoney.htmlview" value="${wastingmoney.sources}/HTMLView" />
+	<property name="wastingmoney.build" value="${wastingmoney.home}/Build" />
+	<property name="wastingmoney.classes" value="${wastingmoney.build}/Classes" />
+	<property name="wastingmoney.wars" value="${wastingmoney.build}/Wars" />
+	<property name="wastingmoney.webappname" value="WastingMoney" />
+	<property name="wastingmoney.war" value="${wastingmoney.wars}/${wastingmoney.webappname}.war" />
+	
+	<!-- ============================ "init" target ============================ -->
+
+	<target name="init">
+		<echo>
+		--------------------------------------------------------------------------------
+		Running build file for subsystem "${wastingmoney.projectname}" ...
+		--------------------------------------------------------------------------------
+        </echo>
+	</target>
+
+	<!-- ========================== "compile" target =========================== -->
+
+	<target name="compile" depends="init">
+		<mkdir dir="${wastingmoney.classes}" />
+		<javac srcdir="${wastingmoney.sources}" destdir="${wastingmoney.classes}" classpathref="j2ee-ubet.classpath" debug="${javac.debug}" optimize="${javac.optimize}" deprecation="${javac.deprecation}" />
+	</target>
+
+	<!-- ========================= "cleanclasses" target ======================= -->
+
+	<target name="cleanclasses" depends="init">
+		<delete dir="${wastingmoney.classes}" />
+	</target>
+
+	<!-- ========================== "rebuild" target =========================== -->
+
+	<target name="rebuild" depends="cleanclasses, compile" />
+
+	<!-- ============================ "wars" target ============================ -->
+
+		<target name="wars" depends="deploywar" />
+	
+	<!-- ========================= "war" target =========================== -->
+
+	<target name="war" depends="compile">
+		<mkdir dir="${wastingmoney.wars}" />
+		<war warfile="${wastingmoney.war}" webxml="${wastingmoney.htmlview}/WEB-INF/web.xml">
+			<fileset dir="${wastingmoney.htmlview}/HTML" excludes="**/*${j2ee-ubet.backupextension}" />
+			<webinf dir="${wastingmoney.htmlview}/WEB-INF" excludes="*web.xml, **/*${j2ee-ubet.backupextension}" />
+			<lib dir="${stdtaglibs.lib}" includes="${stdtaglibs.jars}" />
+			<lib dir="${struts.lib}" includes="${struts.jars}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.standardjar}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.webjar}" />
+			<classes dir="${wastingmoney.classes}" excludes="**/ejb/**" />
+			<classes dir="${wastingmoney.sources}" includes="wastingmoney/http/view/messages/**" excludes="**/*${j2ee-ubet.backupextension}" />
+		</war>
+	</target>
+
+	<!-- ====================== "deploywar" target ======================== -->
+
+	<target name="deploywar" depends="war">
+		<mkdir dir="${tomcat.webapps}/${wastingmoney.webappname}" />
+		<unwar src="${wastingmoney.war}" dest="${tomcat.webapps}/${wastingmoney.webappname}" />
+		<copy file="${wastingmoney.war}" todir="${jboss.deploy}" />
+	</target>
+
+	<!-- =========================== "clean" target =========================== -->
+
+	<target name="clean" depends="init">
+		<delete dir="${wastingmoney.build}" />
+	</target>
+
+</project>

@@ -1,0 +1,41 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:html="http://struts.apache.org/tags-html"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml" version="2.0">
+
+	<p class="itemsTitle"><fmt:message
+		key="ShowRecentEventsContent.recentEvents" /></p>
+
+	<!-- Print current event chunk. -->
+
+	<table id="events">
+
+		<tr>
+			<th>
+			<div id="tableHeader"><fmt:message key="eventAttributes.description" /></div>
+			</th>
+			<th>
+			<div id="tableHeader"><fmt:message key="eventAttributes.category" /></div>
+			</th>
+			<th>
+			<div id="tableHeader"><fmt:message key="eventAttributes.date" /></div>
+			</th>
+		</tr>
+
+		<c:import var="xml" url="${requestScope.xml}" />
+		
+		<x:transform doc="${xml}" xslt="${requestScope.xsl}" />
+		
+	</table>
+
+	<!-- For the plain version of uBet -->
+	<!-- <a href="http://localhost:8080/PlainuBet"> <fmt:message
+		key="Links.uBet" /> </a> -->
+		
+	<!-- For the EJB version of uBet -->
+	<a href="http://localhost:8080/EJBuBet"> <fmt:message
+		key="Links.uBet" /> </a>
+
+</jsp:root>

@@ -1,0 +1,44 @@
+<!-- ======================================================================= -->
+<!--                         Common path references                          -->
+<!-- ======================================================================= -->
+
+<!--
+	The following files must be included first (and in this order):
+	
+	- CommonProperties.xml
+-->
+
+<!-- Classpath required by J2EE-iBei -->
+<path id="j2ee-ibei.requiredclasspath">
+	<fileset dir="${jdbcdriver.home}">
+		<include name="${jdbcdriver.jars}" />
+	</fileset>
+	<fileset dir="${junit.home}">
+		<include name="${junit.jars}" />
+	</fileset>
+	<fileset dir="${tomcat.home}/common/lib">
+		<include name="*.jar" />
+	</fileset>
+	<fileset dir="${stdtaglibs.home}/lib">
+		<include name="*.jar" />
+	</fileset>
+	<fileset dir="${struts.home}/lib">
+		<include name="*.jar" />
+	</fileset>
+	<fileset dir="${jboss.client}">
+		<include name="*.jar" />
+	</fileset>
+	<fileset dir="${utilJars.jars}">
+		<include name="${utilJars.standardjar}" />
+		<include name="${utilJars.webjar}" />
+	</fileset>
+</path>
+
+<!-- J2EE-iBei classpath -->
+<path id="j2ee-ibei.classpath">
+	<path refid="j2ee-ibei.requiredclasspath" />
+	<dirset dir="${j2ee-ibei.subsystems}">
+		<include name="*/Build/Classes" />
+	</dirset>
+	<dirset dir="${propertiesconfiguration.home}" />
+</path>

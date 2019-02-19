@@ -1,0 +1,13 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" version="2.0">
+
+	<fmt:message key="DefaultFooter.softwareBy" />
+	<br />
+	<a href="http://yi-sus.blogspot.com"> Jesus Angel Perez-Roca Fernandez</a> 
+    (<a href="mailto:djalma_fd@yahoo.es">djalma_fd@yahoo.es</a>)
+    <br />
+	<a href="http://mcako.blogspot.com"> Jose Antonio Pereira Suarez</a> 
+    (<a href="mailto:ja_pereira@eresmas.com">ja_pereira@eresmas.com</a>)
+
+</jsp:root>

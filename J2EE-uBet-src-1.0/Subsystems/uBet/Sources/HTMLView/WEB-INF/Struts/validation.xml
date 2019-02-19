@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE form-validation PUBLIC
+"-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN"
+"http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+<form-validation>
+	<formset>
+		<form name="loginForm">
+			<field property="login" depends="required">
+				<arg position="0" key="UserProfile.login" />
+			</field>
+			<field property="password" depends="required">
+				<arg position="0" key="UserProfile.password" />
+			</field>
+		</form>
+		<form name="changePasswordForm">
+			<field property="oldPassword" depends="required">
+				<arg position="0"
+					key="ChangePasswordContent.oldPassword" />
+			</field>
+			<field property="newPassword"
+				depends="required, minlength">
+				<arg position="0"
+					key="ChangePasswordContent.newPassword" />
+				<arg position="1" name="minlength"
+					key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="retypeNewPassword"
+				depends="required, validwhen">
+				<msg name="validwhen"
+					key="ErrorMessages.password.doNotMatch" />
+				<arg position="0"
+					key="ChangePasswordContent.retypeNewPassword" />
+				<var>
+					<var-name>test</var-name>
+					<var-value>(*this* == newPassword)</var-value>
+				</var>
+			</field>
+		</form>
+		<form name="/RegisterUser">
+			<field property="login" depends="required">
+				<arg position="0" key="UserProfile.login" />
+			</field>
+			<field property="password" depends="required, minlength">
+				<arg position="0" key="UserProfile.password" />
+				<arg position="1" name="minlength"
+					key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="retypePassword"
+				depends="required, validwhen">
+				<msg name="validwhen"
+					key="ErrorMessages.password.doNotMatch" />
+				<arg position="0" key="UserProfile.retypePassword" />
+				<var>
+					<var-name>test</var-name>
+					<var-value>(*this* == password)</var-value>
+				</var>
+			</field>
+			<field property="firstName" depends="required">
+				<arg position="0" key="UserProfile.firstName" />
+			</field>
+			<field property="surname" depends="required">
+				<arg position="0" key="UserProfile.surname" />
+			</field>
+			<field property="email" depends="required, email">
+				<arg position="0" key="UserProfile.email" />
+			</field>
+			<field property="countryID" depends="required, mask">
+				<msg name="mask" key="ErrorMessages.invalidCode" />
+				<arg position="0" key="UserProfile.countryID" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^ES|GB|DE|US|JP$</var-value>
+				</var>
+			</field>
+			<field property="creditCardNumber"
+				depends="required, creditCard">
+				<arg position="0" key="UserProfile.creditCardNumber" />
+			</field>
+			<field property="balance" depends="required, double">
+				<arg position="0" key="UserProfile.balance" />
+			</field>
+		</form>
+		<form name="/UpdateUserProfileDetails">
+			<field property="firstName" depends="required">
+				<arg position="0" key="UserProfile.firstName" />
+			</field>
+			<field property="surname" depends="required">
+				<arg position="0" key="UserProfile.surname" />
+			</field>
+			<field property="email" depends="required, email">
+				<arg position="0" key="UserProfile.email" />
+			</field>
+			<field property="countryID" depends="required, mask">
+				<msg name="mask" key="ErrorMessages.invalidCode" />
+				<arg position="0" key="UserProfile.countryID" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^ES|GB|DE|US|JP$</var-value>
+				</var>
+			</field>
+		</form>
+		<form name="/CreateAccount">
+			<field property="creditCardNumber"
+				depends="required, creditCard">
+				<arg position="0" key="UserProfile.creditCardNumber" />
+			</field>
+			<field property="balance" depends="required, double">
+				<arg position="0" key="UserProfile.balance" />
+			</field>
+		</form>
+		<form name="/UpdateAccountDetails">
+			<field property="creditCardNumber"
+				depends="required, creditCard">
+				<arg position="0" key="UserProfile.creditCardNumber" />
+			</field>
+			<field property="balance" depends="required, double">
+				<arg position="0" key="UserProfile.balance" />
+			</field>
+		</form>
+		<form name="insertEventForm">
+			<field property="eventDescription" depends="required">
+				<arg position="0" key="Event.description" />
+			</field>
+			<field property="hour" depends="required, integer">
+				<arg position="0" key="Event.hour" />
+			</field>
+			<field property="minutes" depends="required, integer">
+				<arg position="0" key="Event.minutes" />
+			</field>
+			<field property="optionDescription" depends="required">
+				<arg position="0" key="Event.optionDescription" />
+			</field>
+			<field property="odds" depends="required, double">
+				<arg position="0" key="Event.odds" />
+			</field>
+		</form>
+		<form name="insertBetTypeForm">
+			<field property="questionID" depends="required">
+				<arg position="0" key="BetType.questionID" />
+			</field>
+			<field property="optionDescription" depends="required">
+				<arg position="0" key="BetType.optionDescription" />
+			</field>
+			<field property="odds" depends="required, double">
+				<arg position="0" key="BetType.odds" />
+			</field>
+		</form>
+		<form name="betForm">
+			<field property="amount" depends="required, double">
+				<arg position="0" key="Bet.amount" />
+			</field>
+		</form>
+	</formset>
+</form-validation>

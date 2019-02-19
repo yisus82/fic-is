@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence>
+
+	<persistence-unit name="uBet">
+		<!-- PostgreSQL  -->
+		<!--
+			<jta-data-source>java:/PostgresDS</jta-data-source>
+		-->
+		<!-- MySQL -->
+		<jta-data-source>java:/MySqlDS</jta-data-source>
+		<properties>
+			<!-- PostgreSQL  -->
+			<!--
+				<property name="hibernate.dialect"
+				value="org.hibernate.dialect.PostgreSQLDialect"/>
+			-->
+			<!-- MySQL -->
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.MySQLDialect" />
+		</properties>
+
+	</persistence-unit>
+
+</persistence>

@@ -1,0 +1,46 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:bean="http://jakarta.apache.org/struts/tags-bean"
+	xmlns:logic="http://jakarta.apache.org/struts/tags-logic"
+	xmlns:html="http://struts.apache.org/tags-html" version="2.0">
+
+	<html:form action="PublishBetResults.do">
+
+		<html:hidden property="betTypeID" value="${param.betTypeID}" />
+
+		<html:hidden property="questionDescription"
+			value="${param.questionDescription}" />
+
+		<p class="itemsTitle"><c:out value="${param.questionDescription}" /></p>
+
+		<c:choose>
+
+			<c:when test="${empty requestScope.betOptions}">
+				<p><fmt:message key="InsertWinnerOptions.noBetOptions" /></p>
+			</c:when>
+
+
+			<c:otherwise>
+				<table>
+					<c:forEach var="betOption" items="${requestScope.betOptions}">
+						<tr>
+							<td>${betOption.description}</td>
+							<td><html:multibox name="insertWinnerOptionsForm"
+								property="selectedItems">
+								<c:out value="${betOption.betOptionID}" />
+							</html:multibox></td>
+						</tr>
+					</c:forEach>
+				</table>
+
+				<div class="button"><html:submit>
+					<fmt:message key="Buttons.update" />
+				</html:submit></div>
+
+			</c:otherwise>
+
+		</c:choose>
+	</html:form>
+</jsp:root>

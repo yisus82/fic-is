@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Subsystems/iBei/Sources"/>
+	<classpathentry kind="src" path="PropertiesConfiguration"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry sourcepath="C:/Files/Universidad/Practicas/IS/J2EE-Examples-src-1.5.3/Subsystems/Util/Sources" kind="lib" path="Jars/Util/StandardUtil.jar"/>
+	<classpathentry kind="lib" path="Jars/Util/WebUtil.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/commons-el.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/jasper-compiler.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/jasper-compiler-jdt.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/jasper-runtime.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/mysql-connector-java-3.1.10-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/naming-factory.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/naming-factory-dbcp.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/naming-resources.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-tomcat-5.5.9/common/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/antlr.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/commons-digester.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/commons-validator.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/jakarta-oro.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/struts-1.2.7/lib/struts.jar"/>
+	<classpathentry sourcepath="C:/Archivos de programa/junit3.8.1/src.jar" kind="lib" path="C:/Archivos de programa/junit3.8.1/junit.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/avalon-framework.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/axis-ws4ee.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/commons-discovery.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/concurrent.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/getopt.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jacorb.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jbossall-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-common-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jbosscx-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-deployment.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jbossha-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-iiop-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-j2ee.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-jaxrpc.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jbossjmx-ant.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-jsr77-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jbossmq-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-saaj.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jbosssx-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-system-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-transaction-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jboss-ws4ee-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jmx-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jmx-invoker-adaptor-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/jnp-client.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/juddisaaj.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/log4j.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/logkit.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/namespace.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/scout.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jboss-4.0.3RC2/client/wsdl4j.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-taglibs-standard-1.1.2/lib/jstl.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/jakarta-taglibs-standard-1.1.2/lib/standard.jar"/>
+	<classpathentry kind="output" path="Build"/>
+</classpath>

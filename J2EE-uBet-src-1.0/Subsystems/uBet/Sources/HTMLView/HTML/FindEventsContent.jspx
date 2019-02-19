@@ -1,0 +1,166 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:html="http://struts.apache.org/tags-html" version="2.0">
+
+	<c:if test="${!empty param.parent}">
+		<p class="itemsTitle"><fmt:message key="FindEventsContent.category" />
+		<![CDATA[ &nbsp; ]]> <c:out value="${param.parentName}" /></p>
+	</c:if>
+
+	<c:if test="${sessionScope.login eq 'admin'}">
+		<c:url var="eventURL" value="ShowInsertEvent.do">
+			<c:param name="category" value="${param.parent}" />
+			<c:param name="questionID" value="${param.questionID}" />
+			<c:param name="questionDescription"
+				value="${param.questionDescription}" />
+		</c:url>
+		<p><html:link href="${eventURL}">
+			<fmt:message key="FindEventsContent.insertEvent" />
+		</html:link></p>
+	</c:if>
+
+	<c:choose>
+
+		<c:when test="${empty requestScope.events}">
+			<p><fmt:message key="FindEventsContent.noEvents" /></p>
+		</c:when>
+
+		<!-- Print current event chunk. -->
+
+		<c:otherwise>
+
+			<table id="events">
+
+				<tr>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="eventAttributes.description" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message key="eventAttributes.date" /></div>
+					</th>
+				</tr>
+
+				<c:set var="counter" value="${0}" />
+
+				<c:forEach var="event" items="${requestScope.events}">
+					<c:if test="${counter &lt; requestScope.count}">
+						<tr>
+
+							<td id="itemTable"><c:out value="${event.description}" /></td>
+
+							<td id="itemTable"><fmt:formatDate value="${event.date.time}"
+								type="both" dateStyle="short" /></td>
+
+							<td id="itemTable"><c:url var="eventBetTypesURL"
+								value="ShowEventBetTypes.do">
+								<c:param name="eventID" value="${event.eventID}" />
+								<c:param name="description" value="${event.description}" />
+							</c:url> <a href="${eventBetTypesURL}"> <fmt:message
+								key="eventAttributes.moreBetTypes" /></a></td>
+
+							<c:if test="${sessionScope.login eq 'admin'}">
+								<td id="itemTable"><c:url var="highlightedURL"
+									value="SetHighlighted.do">
+									<c:param name="eventID" value="${event.eventID}" />
+									<c:choose>
+										<c:when test="${event.highlighted eq 'N'}">
+											<c:param name="highlighted" value="true" />
+										</c:when>
+										<c:otherwise>
+											<c:param name="highlighted" value="false" />
+										</c:otherwise>
+									</c:choose>
+								</c:url> <a href="${highlightedURL}"> <c:choose>
+									<c:when test="${event.highlighted eq 'N'}">
+										<fmt:message key="eventAttributes.setHighlighted" />
+									</c:when>
+									<c:otherwise>
+										<fmt:message key="eventAttributes.unsetHighlighted" />
+									</c:otherwise>
+								</c:choose> </a></td>
+							</c:if>
+
+						</tr>
+						<tr>
+							<c:forEach var="option" items="${event.betType.options}">
+								<c:choose>
+									<c:when test="${sessionScope.login ne 'admin'}">
+										<c:choose>
+											<c:when test="${!empty sessionScope.login}">
+												<td id="itemTable"><c:url var="betURL" value="ShowBet.do">
+													<c:param name="betOptionID" value="${option.betOptionID}" />
+													<c:param name="betTypeID"
+														value="${event.betType.betTypeID}" />
+													<c:param name="eventID" value="${event.eventID}" />
+												</c:url> <a href="${betURL}"> <c:out
+													value="${option.description}" /> (<c:out
+													value="${option.odds}" />) </a></td>
+											</c:when>
+											<c:otherwise>
+												<td id="itemTable"><c:out value="${option.description}" />
+												(<c:out value="${option.odds}" />)</td>
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:otherwise>
+										<td id="itemTable"><c:out value="${option.description}" /> (<c:out
+											value="${option.odds}" />)</td>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:if test="${sessionScope.login eq 'admin'}">
+								<td id="itemTable"><c:url var="betTypeURL"
+									value="ShowInsertBetType.do">
+									<c:param name="eventID" value="${event.eventID}" />
+									<c:param name="eventDescription" value="${event.description}" />
+									<c:param name="categoryID" value="${event.category.categoryID}" />
+								</c:url> <a href="${betTypeURL}"> <fmt:message
+									key="eventAttributes.insertBetType" /></a></td>
+							</c:if>
+						</tr>
+						<tr />
+						<tr />
+						<tr />
+					</c:if>
+					<c:set var="counter" value="${counter + 1}" />
+
+				</c:forEach>
+
+			</table>
+
+		</c:otherwise>
+
+	</c:choose>
+
+	<!-- "Previous" and "Next" links. -->
+
+	<div class="previousNextLinks"><span class="previousLink"> <c:if
+		test="${!empty requestScope.previous}">
+		<c:url var="eventsURL" value="FindChildrenOfCategory.do">
+			<c:param name="parent" value="${param.parent}" />
+			<c:param name="parentName" value="${param.parentName}" />
+			<c:param name="questionID" value="${param.questionID}" />
+			<c:param name="questionDescription"
+				value="${param.questionDescription}" />
+			<c:param name="startIndex" value="${requestScope.previous}" />
+			<c:param name="count" value="${requestScope.count}" />
+		</c:url>
+		<a href="${eventsURL}"> <fmt:message key="Links.previous" /> </a>
+	</c:if> </span> <span class="nextLink"> <c:if
+		test="${!empty requestScope.next}">
+		<c:url var="eventsURL" value="FindChildrenOfCategory.do">
+			<c:param name="parent" value="${param.parent}" />
+			<c:param name="parentName" value="${param.parentName}" />
+			<c:param name="questionID" value="${param.questionID}" />
+			<c:param name="questionDescription"
+				value="${param.questionDescription}" />
+			<c:param name="startIndex" value="${requestScope.next}" />
+			<c:param name="count" value="${requestScope.count}" />
+		</c:url>
+		<a href="${eventsURL}"> <fmt:message key="Links.next" /> </a>
+	</c:if></span></div>
+
+</jsp:root>

@@ -1,0 +1,29 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:html="http://struts.apache.org/tags-html" version="2.0">
+
+	<html:xhtml />
+
+	<p><html:link href="ShowChangePassword.do">
+		<fmt:message key="UpdateUserProfileDetailsContent.changePassword" />
+	</html:link></p>
+
+	<html:form action="UpdateUserProfileDetails.do" focus="login">
+
+		<html:hidden property="action" value="UPDATE" />
+
+		<div class="field"><span class="label"> <fmt:message
+			key="UserProfile.login" /> </span> <span class="entry"> <html:text
+			property="login" size="16" maxlength="30" /> <html:errors
+			property="login" /> </span></div>
+
+		<jsp:directive.include file="UserProfileDetails.jspf" />
+
+		<div class="button"><html:submit>
+			<fmt:message key="Buttons.update" />
+		</html:submit></div>
+
+	</html:form>
+
+</jsp:root>

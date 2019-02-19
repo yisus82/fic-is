@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+<!ENTITY CommonProperties SYSTEM "../../CommonProperties.xml">
+<!ENTITY CommonPathReferences SYSTEM "../../CommonPathReferences.xml">
+]>
+
+<!-- ======================================================================= -->
+<!--			     "iBei" build file 			                             -->
+<!-- ======================================================================= -->
+
+<project name="iBei" default="compile" basedir=".">
+
+	<!-- ============================  Properties ============================== -->
+	<property name="j2ee-ibei.home" value="${basedir}/../../.." />
+	    &CommonProperties;
+	    &CommonPathReferences;
+	    
+    <property name="ibei.projectname" value="iBei" />
+	<property name="ibei.htmlview" value="${ibei.sources}/HTMLView" />
+	<property name="ibei.ejbconfiguration" value="${ibei.sources}/EJBConfiguration" />
+	<property name="ibei.scripts" value="${ibei.home}/Scripts" />
+	<property name="ibei.build" value="${ibei.home}/Build" />
+	<property name="ibei.classes" value="${ibei.build}/Classes" />
+	<property name="ibei.jars" value="${ibei.build}/Jars" />
+	<property name="ibei.ejbuserfacadejar" value="EJBUserFacade.jar" />
+	<property name="ibei.ejbuserfacadeclientjar" value="EJBUserFacadeClient.jar" />
+	<property name="ibei.wars" value="${ibei.build}/Wars" />
+	<property name="ibei.plainwebappname" value="PlainiBei" />
+	<property name="ibei.ejbwebappname" value="EJBiBei" />
+	<property name="ibei.plainwar" value="${ibei.wars}/${ibei.plainwebappname}.war" />
+	<property name="ibei.ejbwar" value="${ibei.wars}/${ibei.ejbwebappname}.war" />
+	<property name="ibei.javadoc" value="${ibei.build}/JavaDoc" />
+
+	<!-- ============================ "init" target ============================ -->
+
+	<target name="init">
+		<echo>
+		--------------------------------------------------------------------------------
+		Running build file for subsystem "${ibei.projectname}" ...
+		--------------------------------------------------------------------------------
+        </echo>
+	</target>
+
+	<!-- ========================== "compile" target =========================== -->
+
+	<target name="compile" depends="init">
+		<mkdir dir="${ibei.classes}" />
+		<javac srcdir="${ibei.sources}" destdir="${ibei.classes}" classpathref="j2ee-ibei.classpath" debug="${javac.debug}" optimize="${javac.optimize}" deprecation="${javac.deprecation}" />
+	</target>
+
+	<!-- ========================= "cleanclasses" target ======================= -->
+
+	<target name="cleanclasses" depends="init">
+		<delete dir="${ibei.build}" />
+	</target>
+
+	<!-- ========================== "rebuild" target =========================== -->
+
+	<target name="rebuild" depends="cleanclasses, compile" />
+
+	<!-- ============================ "jars" target ============================ -->
+
+	<target name="jars" depends="ejbjars" />
+
+	<!-- =========================== "ejbjars" target ========================== -->
+
+	<target name="ejbjars" depends="compile">
+		<mkdir dir="${ibei.jars}" />
+		<mkdir dir="${ibei.classes}/META-INF" />
+		<copy todir="${ibei.classes}/META-INF">
+			<fileset dir="${ibei.ejbconfiguration}" includes="*.xml" />
+		</copy>
+		<jar jarfile="${ibei.jars}/${ibei.ejbuserfacadejar}" basedir="${ibei.classes}" includes="META-INF/*.xml,
+                       ibei/model/**" excludes="**/plain/**, **/delegate/**, **/dao/**,
+			 ibei/model/userfacade/ejb/EJBUserFacadeDelegate.class" />
+		<delete dir="${ibei.classes}/META-INF" />
+		<jar jarfile="${ibei.jars}/${ibei.ejbuserfacadeclientjar}" basedir="${ibei.classes}" includes="
+			 model/user/to/*,
+			 model/userfacade/delegate/*,
+			 model/userfacade/exceptions/*,
+			 model/userfacade/ejb/UserFacade.class,
+			 model/userfacade/ejb/UserFacadeHome.class,
+			 model/userfacade/ejb/EJBUserFacadeDelegate.class,
+			 model/userfacade/to/**" />
+	</target>
+
+	<!-- ======================== "deployejbjar" target =========================== -->
+
+	<target name="deployejbjar" depends="init, ejbjars">
+		<copy file="${utilJars.jars}/${utilJars.standardjar}" todir="${jboss.deploylib}" />
+		<copy file="${ibei.jars}/${ibei.ejbuserfacadejar}" todir="${jboss.deploy}" />
+	</target>
+
+	<!-- ========================= "plainwar" target =========================== -->
+
+	<target name="plainwar" depends="compile">
+		<mkdir dir="${ibei.wars}" />
+		<copy todir="${ibei.htmlview}/WEB-INF/Struts">
+			<fileset dir="${struts.lib}" includes="validator-rules.xml" />
+		</copy>
+		<war warfile="${ibei.plainwar}" webxml="${ibei.htmlview}/WEB-INF/plainweb.xml">
+			<fileset dir="${ibei.htmlview}/HTML" excludes="**/*${j2ee-ibei.backupextension}" />
+			<webinf dir="${ibei.htmlview}/WEB-INF" excludes="*web.xml, **/*${j2ee-ibei.backupextension}" />
+			<webinf dir="${ibei.scripts}" includes="**" excludes="**/*${j2ee-ibei.backupextension}" />
+			<lib dir="${stdtaglibs.lib}" includes="${stdtaglibs.jars}" />
+			<lib dir="${struts.lib}" includes="${struts.jars}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.standardjar}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.webjar}" />
+			<classes dir="${ibei.classes}" excludes="**/ejb/**" />
+			<classes dir="${ibei.sources}" includes="ibei/http/view/messages/**" excludes="**/*${j2ee-ibei.backupextension}" />
+		</war>
+	</target>
+
+	<!-- ====================== "deployplainwar" target ======================== -->
+
+	<target name="deployplainwar" depends="plainwar">
+		<mkdir dir="${tomcat.webapps}/${ibei.plainwebappname}" />
+		<unwar src="${ibei.plainwar}" dest="${tomcat.webapps}/${ibei.plainwebappname}" />
+	</target>
+
+	<!-- ========================== "ejbwar" target ============================ -->
+
+	<target name="ejbwar" depends="ejbjars">
+		<mkdir dir="${ibei.wars}" />
+		<copy todir="${ibei.htmlview}/WEB-INF/Struts">
+			<fileset dir="${struts.lib}" includes="validator-rules.xml" />
+		</copy>
+		<war warfile="${ibei.ejbwar}" webxml="${ibei.htmlview}/WEB-INF/ejbweb.xml">
+			<fileset dir="${ibei.htmlview}/HTML" excludes="**/*${j2ee-ibei.backupextension}" />
+			<webinf dir="${ibei.htmlview}/WEB-INF" excludes="*web.xml, **/*${j2ee-ibei.backupextension}" />
+			<webinf dir="${ibei.scripts}" includes="**" excludes="**/*${j2ee-ibei.backupextension}" />
+			<lib dir="${stdtaglibs.lib}" includes="${stdtaglibs.jars}" />
+			<lib dir="${struts.lib}" includes="${struts.jars}" />
+			<lib dir="${jboss.client}" includes="${jboss.client.jars}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.standardjar}" />
+			<lib dir="${utilJars.jars}" includes="${utilJars.webjar}" />
+			<lib dir="${ibei.jars}" includes="${ibei.ejbuserfacadeclientjar}" />
+			<classes dir="${ibei.classes}" includes="ibei/http/**" />
+			<classes dir="${ibei.sources}" includes="ibei/http/view/messages/**" excludes="**/*${j2ee-ibei.backupextension}" />
+			<classes dir="${propertiesconfiguration.home}" includes="EJBHomeLocatorJNDIInitialContext.properties" />
+		</war>
+	</target>
+
+	<!-- ======================= "deployejbwar" target ========================= -->
+
+	<target name="deployejbwar" depends="ejbwar">
+		<mkdir dir="${tomcat.webapps}/${ibei.ejbwebappname}" />
+		<unwar src="${ibei.ejbwar}" dest="${tomcat.webapps}/${ibei.ejbwebappname}" />
+	</target>
+
+	<!-- ============================ "wars" target ============================ -->
+
+	<target name="wars" depends="plainwar, ejbwar" />
+
+	<!-- ========================= "javadoc" target ============================ -->
+
+	<target name="javadoc" depends="compile">
+		<delete dir="${ibei.javadoc}" />
+		<mkdir dir="${ibei.javadoc}" />
+		<javadoc packagenames="*" sourcepath="${ibei.sources}" classpathref="j2ee-ibei.classpath" destdir="${ibei.javadoc}" private="yes" windowtitle="iBei Subsystem" doctitle="iBei Subsystem" header="iBei Subsystem" bottom="${j2ee-ibei.name} v${j2ee-ibei.version} - ${j2ee-ibei.author}">
+			<link href="${j2se.javadocurl}" />
+			<link href="${j2ee.javadocurl}" />
+			<link href="${struts.javadocurl}" />
+		</javadoc>
+	</target>
+
+	<!-- =========================== "clean" target =========================== -->
+
+	<target name="clean" depends="init, cleardb">
+		<delete dir="${ibei.build}" />
+	</target>
+
+	<!-- ============================ "cleardb" target ========================== -->
+
+	<!-- IMPORTANT: 
+			    
+			         - All "java" tasks set "fork" to "true". Otherwise, problems occur 
+			           in the creation of the SAX parser. Furthermore, it is required if
+			           the "dir" attribute is used.
+			           
+			         - All "sql" tasks specify onerror="continue" since SQL scripts
+			           try to drop tables before creating them (which causes errors if
+			           such tables do not exist yet).
+			           
+			         - All "sql" tasks specify autocommit="true" since some drivers (e.g 
+			           the PostgreSQL JDBC 2 driver) do not commit changes if some error 
+			           ocurrs.
+			           
+			    -->
+
+	<target name="cleardb" depends="init">
+
+		<sql driver="${jdbcdriver.className}" url="${jdbcdriver.url}" userid="${jdbcdriver.user}" password="${jdbcdriver.password}" classpathref="j2ee-ibei.classpath" onerror="continue" autocommit="true">
+			<fileset dir="${ibei.home}" includes="**/${jdbcdriver.databaseName}DeleteTables.sql" />
+		</sql>
+
+	</target>
+
+	<!-- ============================ "initdb" target ========================== -->
+
+	<!-- IMPORTANT: 
+		    
+		         - All "java" tasks set "fork" to "true". Otherwise, problems occur 
+		           in the creation of the SAX parser. Furthermore, it is required if
+		           the "dir" attribute is used.
+		           
+		         - All "sql" tasks specify onerror="continue" since SQL scripts
+		           try to drop tables before creating them (which causes errors if
+		           such tables do not exist yet).
+		           
+		         - All "sql" tasks specify autocommit="true" since some drivers (e.g 
+		           the PostgreSQL JDBC 2 driver) do not commit changes if some error 
+		           ocurrs.
+		           
+		    -->
+
+	<target name="initdb" depends="init, cleardb">
+
+		<sql driver="${jdbcdriver.className}" url="${jdbcdriver.url}" userid="${jdbcdriver.user}" password="${jdbcdriver.password}" classpathref="j2ee-ibei.classpath" onerror="continue" autocommit="true">
+			<fileset dir="${ibei.home}" includes="**/${jdbcdriver.databaseName}CreateTables.sql" />
+		</sql>
+
+	</target>
+
+	<!-- ============================ "test" target =============================== -->
+
+	<target name="test" depends="compile">
+		<java fork="yes" classpathref="j2ee-ibei.classpath" classname="ibei.test.MainTest" />
+	</target>
+
+</project>

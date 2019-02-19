@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+"http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+<tiles-definitions>
+	<definition name=".Base"
+		page="/commontiles/layouts/DefaultLayout.jspx">
+		<put name="title" value="${title}" />
+		<put name="pageTitle"
+			value="/commontiles/DefaultPageTitle.jspx" />
+		<!-- In derived tiles, define one of the following attributes:
+			<put name="headerSpecificAsTile"  value="${headerSpecificAsTile}" />
+			<put name="headerSpecificAsKey"  value="${headerSpecificAsKey}" />
+		-->
+		<put name="sidebar" value="/commontiles/DefaultSidebar.jspx" />
+		<put name="content" value="${content}" />
+		<put name="footer" value="/commontiles/DefaultFooter.jspx" />
+	</definition>
+	<definition name=".InternalError" extends=".Base">
+		<put name="title" value="InternalError.title" />
+		<put name="headerSpecificAsKey"
+			value="InternalError.headerSpecific" />
+		<put name="content" value="/InternalErrorContent.jspx" />
+	</definition>
+	<definition name=".Authentication" extends=".Base">
+		<put name="title" value="Authentication.title" />
+		<put name="headerSpecificAsKey"
+			value="Authentication.headerSpecific" />
+		<put name="content" value="/AuthenticationContent.jspx" />
+	</definition>
+	<definition name=".RegisterUser" extends=".Base">
+		<put name="title" value="RegisterUser.title" />
+		<put name="headerSpecificAsKey"
+			value="RegisterUser.headerSpecific" />
+		<put name="content" value="/RegisterUserContent.jspx" />
+	</definition>
+	<definition name=".UpdateUserProfileDetails" extends=".Base">
+		<put name="title" value="UpdateUserProfileDetails.title" />
+		<put name="headerSpecificAsKey"
+			value="UpdateUserProfileDetails.headerSpecific" />
+		<put name="content"
+			value="/UpdateUserProfileDetailsContent.jspx" />
+	</definition>
+	<definition name=".ChangePassword" extends=".Base">
+		<put name="title" value="ChangePassword.title" />
+		<put name="headerSpecificAsKey"
+			value="ChangePassword.headerSpecific" />
+		<put name="content" value="/ChangePasswordContent.jspx" />
+	</definition>
+	<definition name=".CreateAccount" extends=".Base">
+		<put name="title" value="CreateAccount.title" />
+		<put name="headerSpecificAsKey"
+			value="CreateAccount.headerSpecific" />
+		<put name="content" value="/CreateAccountContent.jspx" />
+	</definition>
+	<definition name=".UpdateAccountDetails" extends=".Base">
+		<put name="title" value="UpdateAccountDetails.title" />
+		<put name="headerSpecificAsKey"
+			value="UpdateAccountDetails.headerSpecific" />
+		<put name="content" value="/UpdateAccountDetailsContent.jspx" />
+	</definition>
+	<!-- Category's Search -->
+	<definition name=".ChildrenOfCategory" extends=".Base">
+		<put name="title" value="ChildrenOfCategory.title" />
+		<put name="headerSpecificAsKey"
+			value="ChildrenOfCategory.headerSpecific" />
+		<put name="content" value="/FindChildrenOfCategory.jspx" />
+	</definition>
+	<definition name=".InsertEvent" extends=".Base">
+		<put name="title" value="InsertEvent.title" />
+		<put name="headerSpecificAsKey"
+			value="InsertEvent.headerSpecific" />
+		<put name="content" value="/InsertEventContent.jspx" />
+	</definition>
+	<definition name=".FindEventsContent" extends=".Base">
+		<put name="title" value="FindEventsContent.title" />
+		<put name="headerSpecificAsKey"
+			value="FindEventsContent.headerSpecific" />
+		<put name="content" value="/FindEventsContent.jspx" />
+	</definition>
+	<definition name=".ShowEventBetTypesContent" extends=".Base">
+		<put name="title" value="ShowEventBetTypesContent.title" />
+		<put name="headerSpecificAsKey"
+			value="ShowEventBetTypesContent.headerSpecific" />
+		<put name="content" value="/ShowEventBetTypesContent.jspx" />
+	</definition>
+	<definition name=".InsertBetType" extends=".Base">
+		<put name="title" value="InsertBetType.title" />
+		<put name="headerSpecificAsKey"
+			value="InsertBetType.headerSpecific" />
+		<put name="content" value="/InsertBetTypeContent.jspx" />
+	</definition>
+	<definition name=".Bet" extends=".Base">
+		<put name="title" value="Bet.title" />
+		<put name="headerSpecificAsKey" value="Bet.headerSpecific" />
+		<put name="content" value="/BetContent.jspx" />
+	</definition>
+	<definition name=".ShowMyBetsContent" extends=".Base">
+		<put name="title" value="ShowMyBetsContent.title" />
+		<put name="headerSpecificAsKey"
+			value="ShowMyBetsContent.headerSpecific" />
+		<put name="content" value="/ShowMyBetsContent.jspx" />
+	</definition>
+	<definition name=".InsertWinnerOptions" extends=".Base">
+		<put name="title" value="InsertWinnerOptions.title" />
+		<put name="headerSpecificAsKey"
+			value="InsertWinnerOptions.headerSpecific" />
+		<put name="content" value="/InsertWinnerOptions.jspx" />
+	</definition>
+	<definition name=".ShowMyAccountsContent" extends=".Base">
+		<put name="title" value="ShowMyAccountsContent.title" />
+		<put name="headerSpecificAsKey"
+			value="ShowMyAccountsContent.headerSpecific" />
+		<put name="content" value="/ShowMyAccountsContent.jspx" />
+	</definition>
+	<definition name=".ShowMyAccountOperationsContent"
+		extends=".Base">
+		<put name="title" value="ShowMyAccountOperationsContent.title" />
+		<put name="headerSpecificAsKey"
+			value="ShowMyAccountOperationsContent.headerSpecific" />
+		<put name="content"
+			value="/ShowMyAccountOperationsContent.jspx" />
+	</definition>
+	<definition name=".AddWithdraw" extends=".Base">
+		<put name="title" value="AddWithdraw.title" />
+		<put name="headerSpecificAsKey" value="AddWithdraw.headerSpecific" />
+		<put name="content" value="/AddWithdrawContent.jspx" />
+	</definition>
+	<definition name=".ShowBetDetailsContent" extends=".Base">
+		<put name="title" value="ShowBetDetailsContent.title" />
+		<put name="headerSpecificAsKey"
+			value="ShowBetDetailsContent.headerSpecific" />
+		<put name="content" value="/ShowBetDetailsContent.jspx" />
+	</definition>
+	<definition name=".ShowHighlightedEventsContent" extends=".Base">
+		<put name="title" value="ShowHighlightedEventsContent.title" />
+		<put name="headerSpecificAsKey"
+			value="ShowHighlightedEventsContent.headerSpecific" />
+		<put name="content" value="/ShowHighlightedEventsContent.jspx" />
+	</definition>
+	<definition name=".FindRecentEventsContent" extends=".Base">
+		<put name="title" value="FindRecentEventsContent.title" />
+		<put name="headerSpecificAsKey"
+			value="FindRecentEventsContent.headerSpecific" />
+		<put name="content" value="/FindRecentEventsContent.jspx" />
+	</definition>
+</tiles-definitions>

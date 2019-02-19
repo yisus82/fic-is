@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+
+    <definition name=".Base" page="/commontiles/layouts/DefaultLayout.jspx">
+        <put name="title"  value="${title}" />
+        <put name="pageTitle"  value="/commontiles/DefaultPageTitle.jspx" />
+        <put name="searchBar"  value="/commontiles/DefaultSearchBar.jspx" />
+        <put name="header" value ="/commontiles/DefaultHeader.jspx"/>
+        <!-- In derived tiles, define one of the following attributes:
+        <put name="headerSpecificAsTile"  value="${headerSpecificAsTile}" />
+        <put name="headerSpecificAsKey"  value="${headerSpecificAsKey}" />
+        -->
+        <put name="content"  value="${content}" />
+        <put name="footer" value="/commontiles/DefaultFooter.jspx" />
+    </definition>
+    
+    <definition name=".InternalError" extends=".Base" >
+        <put name="title"  value="InternalError.title" />
+        <put name="headerSpecificAsKey" value="InternalError.headerSpecific" />
+        <put name="content" value="/InternalErrorContent.jspx" />
+    </definition>
+    
+    <definition name=".MainPage" extends=".Base" >
+        <put name="title"  value="MainPage.title" />
+<!--        <put name="headerSpecificAsTile" value="/MainPageHeaderSpecific.jspx" />-->
+        <put name="content" value="/MainPageContent.jspx" />
+    </definition>
+    
+    <definition name=".Authentication" extends=".Base" >
+        <put name="title"  value="Authentication.title" />
+        <put name="headerSpecificAsKey" value="Authentication.headerSpecific" />
+        <put name="content" value="/AuthenticationContent.jspx" />
+    </definition>
+    
+    <definition name=".RegisterUser" extends=".Base" >
+        <put name="title"  value="RegisterUser.title" />
+        <put name="headerSpecificAsKey" value="RegisterUser.headerSpecific" /> 
+    <!--    <put name="headerSpecificAsTile" value="/RegisterUserHeaderSpecific.jspx" />        -->
+        <put name="content" value="/RegisterUserContent.jspx" />        
+    </definition>
+    
+    <definition name=".RegisterSeller" extends=".Base" >
+        <put name="title"  value="RegisterUser.title" />
+        <put name="headerSpecificAsKey" value="RegisterUser.headerSpecific" /> 
+        <put name="content" value="/RegisterSellerContent.jspx" />        
+    </definition>
+    
+    <definition name=".UpdateUserProfileDetails" extends=".Base" >
+        <put name="title"  value="UpdateUserProfileDetails.title" />
+        <put name="headerSpecificAsKey" 
+             value="UpdateUserProfileDetails.headerSpecific" />
+        <put name="content" value="/UpdateUserProfileDetailsContent.jspx" />
+    </definition>
+    
+    <definition name=".UpdateSellerProfileDetails" extends=".Base" >
+        <put name="title"  value="UpdateSellerProfileDetails.title" />
+        <put name="headerSpecificAsKey" 
+             value="UpdateSellerProfileDetails.headerSpecific" />
+        <put name="content" value="/UpdateSellerProfileDetailsContent.jspx" />
+    </definition>
+    
+    <definition name=".Announce" extends=".Base" >
+        <put name="title"  value="Announce.title" />
+        <put name="headerSpecificAsKey" value="Announce.headerSpecific" />
+        <put name="content" value="/AnnounceContent.jspx" />
+    </definition>
+    
+    <definition name=".ResultSearch" extends=".Base" >
+        <put name="title"  value="ResultSearch.title" />
+        <put name="headerSpecificAsKey" value="ResultSearch.headerSpecific" />
+        <put name="content" value="/ResultSearchContent.jspx" />
+    </definition>
+
+    <definition name=".CategoryTree" extends=".Base" >
+        <put name="title"  value="CategoryTree.title" />
+        <put name="headerSpecificAsKey" value="CategoryTree.headerSpecific" />
+        <put name="content" value="/ResultCategoryTreeContent.jspx" />
+    </definition>
+
+    <definition name=".ResultBidsUser" extends=".Base" >
+        <put name="title"  value="ResultBidsUser.title" />
+        <put name="headerSpecificAsKey" value="ResultBidsUser.headerSpecific" />
+        <put name="content" value="/ResultBidsUserContent.jspx" />
+    </definition>
+
+    <definition name=".ResultBidsProduct" extends=".Base" >
+        <put name="title"  value="ResultBidsProduct.title" />
+        <put name="headerSpecificAsKey" value="ResultBidsProduct.headerSpecific" />
+        <put name="content" value="/ResultBidsProductContent.jspx" />
+    </definition>
+     
+</tiles-definitions>

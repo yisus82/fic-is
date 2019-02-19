@@ -1,0 +1,95 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:html="http://struts.apache.org/tags-html" version="2.0">
+
+	<c:if test="${!empty sessionScope.login}">
+		<p class="itemsTitle"><fmt:message key="ShowBetDetailsContent.betDetails" /></p>
+	</c:if>
+
+	<c:choose>
+
+		<c:when test="${empty requestScope.bet}">
+			<p><fmt:message key="ShowBetDetailsContent.noBet" /></p>
+		</c:when>
+
+		<!-- Print current bet. -->
+
+		<c:otherwise>
+
+			<table id="bet">
+
+				<tr>
+					<th>
+					<div id="tableHeader"><fmt:message key="betAttributes.betDate" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="betAttributes.eventDescription" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message key="betAttributes.eventDate" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="betAttributes.questionDescription" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message key="betAttributes.chosenOption" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message key="betAttributes.odds" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message key="betAttributes.status" /></div>
+					</th>
+					<th>
+					<div id="tableHeader"><fmt:message
+						key="betAttributes.winnerOptions" /></div>
+					</th>
+				</tr>
+
+				<c:set var="bet" value="${requestScope.bet}" />
+					<tr>
+
+							<td id="itemTable"><fmt:formatDate value="${bet.date.time}"
+								type="both" dateStyle="short" /></td>
+
+							<td id="itemTable"><c:out value="${bet.event}" /></td>
+
+							<td id="itemTable"><fmt:formatDate value="${bet.eventDate.time}"
+								type="both" dateStyle="short" /></td>
+
+							<td id="itemTable"><c:out value="${bet.question}" /></td>
+
+							<td id="itemTable"><c:out value="${bet.chosenOption}" /></td>
+
+							<td id="itemTable"><fmt:formatNumber value="${bet.odds}" /></td>
+
+							<td id="itemTable"><fmt:message key="betAttributes.status.${bet.status}" /></td>
+
+							<c:forEach var="winner" items="${bet.winnerOptions}">
+								<td id="itemTable"><c:out value="${winner}" /></td>
+								<tr />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+							</c:forEach>
+
+						</tr>
+						<tr />
+						<tr />
+						<tr />
+
+			</table>
+
+		</c:otherwise>
+
+	</c:choose>
+
+</jsp:root>

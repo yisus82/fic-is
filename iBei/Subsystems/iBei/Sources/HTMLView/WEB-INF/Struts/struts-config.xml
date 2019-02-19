@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+ 
+<!-- ============ Form Bean Definitions =================================== -->
+
+<form-beans>
+
+    <form-bean name="loginForm"
+          type="org.apache.struts.validator.DynaValidatorForm">
+        <form-property name="login" type="java.lang.String"/>
+        <form-property name="password" type="java.lang.String"/>
+        <form-property name="rememberPassword" type="java.lang.Boolean"/>
+    </form-bean>
+
+    <form-bean name="userProfileForm"
+               type="org.apache.struts.validator.DynaValidatorActionForm">
+        <form-property name="action" type="java.lang.String"/>
+        <form-property name="login" type="java.lang.String"/>
+        <form-property name="password" type="java.lang.String"/>
+        <form-property name="retypePassword" type="java.lang.String"/>
+        <form-property name="name" type="java.lang.String"/>
+        <form-property name="surname" type="java.lang.String"/>
+        <form-property name="email" type="java.lang.String"/>
+        <form-property name="street" type="java.lang.String"/>
+        <form-property name="city" type="java.lang.String"/>
+        <form-property name="state" type="java.lang.String"/>
+        <form-property name="postalCode" type="java.lang.Short"/>
+        <form-property name="country" type="java.lang.String"/>
+    </form-bean>
+    
+     <form-bean name="sellerProfileForm"
+               type="org.apache.struts.validator.DynaValidatorActionForm">  
+        <form-property name="action" type="java.lang.String"/>                     
+        <form-property name="creditCardNumber" type="java.lang.String"/>
+        <form-property name="endMonth" type="java.lang.Integer"/>
+        <form-property name="endYear" type="java.lang.Integer"/>
+    </form-bean>
+    
+    <form-bean name="productForm" type="org.apache.struts.validator.DynaValidatorForm">
+        <form-property name="name" type="java.lang.String"/>
+        <form-property name="description" type="java.lang.String"/>
+        <form-property name="startingPrice" type="java.lang.Double"/>
+        <form-property name="shippingInfo" type="java.lang.String"/>
+        <form-property name="category" type="java.lang.String"/>               
+    </form-bean>
+
+
+    <form-bean name="searchForm" type="org.apache.struts.action.DynaActionForm">
+        <form-property name="action" type="java.lang.String"/>
+        <form-property name="searchString" type="java.lang.String"/>
+        <form-property name="count" type="java.lang.Integer"/>
+        <form-property name="startIndex" type="java.lang.Integer"/>
+        <form-property name="category" type="java.lang.String"/>
+    </form-bean>
+
+
+    <form-bean name="showProductDetailsForm" type="org.apache.struts.action.DynaActionForm">
+        <form-property name="product" type="java.lang.Long"/>
+    </form-bean>
+
+    <form-bean name="resultProductDetailsForm" type="org.apache.struts.action.DynaActionForm">
+        <form-property name="user" type="java.lang.String"/>
+        <form-property name="winner" type="java.lang.String"/>                
+        <form-property name="category" type="java.lang.String"/> 
+    </form-bean>
+        
+    <form-bean name="categoryTreeForm" type="org.apache.struts.action.DynaActionForm">
+        <form-property name="action" type="java.lang.String"/>
+        <form-property name="categoryID" type="java.lang.String"/>
+        <form-property name="categoryName" type="java.lang.String"/>
+        <form-property name="path" type="java.lang.String"/>
+        <form-property name="parent" type="java.lang.String"/>
+        <form-property name="categories" type="java.util.Vector"/>                                
+    </form-bean>
+
+    <form-bean name="bidForm" type="org.apache.struts.validator.DynaValidatorForm">
+        <form-property name="maxBid" type="java.lang.Double"/>
+        <form-property name="product" type="java.lang.Long"/>
+        <form-property name="currentBid" type="java.lang.Double"/>
+     </form-bean>
+     
+    <form-bean name="searchBidsForm" type="org.apache.struts.action.DynaActionForm">
+        <form-property name="action" type="java.lang.String"/>
+        <form-property name="count" type="java.lang.Integer"/>
+        <form-property name="startIndex" type="java.lang.Integer"/>
+        <form-property name="user" type="java.lang.Long"/>
+    </form-bean>
+   
+</form-beans>
+
+
+<!-- ============ Global Forward Definitions ============================== -->
+
+<global-forwards>
+    <forward name="MainPage" path="/MainPage.do" redirect="true"/>
+    <forward name="AuthenticationPage" path="/ShowAuthentication.do"
+             redirect="true"/>
+    <forward name="InternalError" path="/InternalError.do" redirect="true"/>
+</global-forwards>
+
+<!-- ============ Action Mapping Definitions ============================== -->
+
+<action-mappings type="ibei.http.controller.frontcontroller.EibaiActionMapping">
+
+    <action path="/InternalError"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter=".InternalError"/>
+
+    <action path="/ShowAuthentication"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter=".Authentication"/>
+
+    <action path="/Login" type="ibei.http.controller.actions.LoginAction"
+            name="loginForm"
+            scope="request"
+            input=".Authentication"
+            validate="true"/>
+   
+    <action path="/Logout" type="ibei.http.controller.actions.LogoutAction"/>
+   
+    <action path="/EditUserProfile" type="ibei.http.controller.actions.EditUserProfileAction"
+            name="userProfileForm"
+            scope="request"
+            validate="false">
+
+        <forward name="RegisterUserForm" path=".RegisterUser"/>
+        <forward name="UpdateUserProfileDetailsForm"
+                 path=".UpdateUserProfileDetails"/>
+        
+
+     </action>
+
+    <action path="/RegisterUser" type="ibei.http.controller.actions.RegisterUserAction"
+            name="userProfileForm"
+            scope="request"
+            input="/EditUserProfile.do"
+            validate="true">
+            
+            <forward name="EditSellerProfileForm" path="/EditSellerProfile.do"/>
+     </action>
+     
+    <action path="/UpdateUserProfileDetails" type="ibei.http.controller.actions.UpdateUserProfileDetailsAction"
+            name="userProfileForm"
+            scope="request"
+            input="/EditUserProfile.do"
+            validate="true">
+        <set-property property="authenticationRequired" value="true"/>
+        <forward name="EditSellerProfileForm" path="/EditSellerProfile.do"/>                        
+        
+    </action>
+
+    <action path="/EditSellerProfile" type="ibei.http.controller.actions.EditSellerProfileAction"
+            name="sellerProfileForm"
+            scope="request"
+            validate="false">
+
+        <forward name="RegisterSellerForm" path=".RegisterSeller"/>
+        <forward name="UpdateSellerProfileForm"
+                 path=".UpdateSellerProfileDetails"/>
+
+     </action>    
+     
+    <action path="/RegisterSeller" type="ibei.http.controller.actions.RegisterSellerAction"
+            name="sellerProfileForm"
+            scope="request"
+            input=".RegisterSeller"
+            validate="true">
+            
+            <forward name="EditUserProfileForm" path="/EditUserProfile.do"/>
+    </action>
+
+    <action path="/UpdateSellerProfileDetails" type="ibei.http.controller.actions.UpdateSellerProfileDetailsAction"
+            name="sellerProfileForm"
+            scope="request"
+            input="/EditSellerProfile.do" 
+            validate="false">
+        <set-property property="authenticationRequired" value="true"/>
+		<forward name="EditUserProfileForm" path="/EditUserProfile.do"/>                                
+    </action>
+    
+    <action path="/InsertProduct" type="ibei.http.controller.actions.InsertProductAction"
+            name="productForm"
+            scope="request"
+            input=".InsertProduct"
+            validate="true">  
+            <set-property property="sellerRequired" value="true"/>          
+     </action>
+
+    <action path="/SearchSellerProducts" type="org.apache.struts.actions.ForwardAction"
+    		name="searchForm"
+            parameter="/Search.do">
+         <set-property property="sellerRequired" value="true"/>
+    </action>
+            
+    <action path="/Search" type="ibei.http.controller.actions.SearchAction"
+            name="searchForm"
+            scope="request">
+              <forward name="ResultSearchForm" path=".ResultSearch"/>   
+     </action>
+
+    <action path="/ShowProductDetails" type="ibei.http.controller.actions.ShowProductDetailsAction"
+            name="showDetailsProductForm"
+            scope="request">
+             <set-property property="authenticationRequired" value="true"/>
+              <forward name="ResultSearchForm" path="/ResultShowProductDetails.do"/>
+    </action>
+     
+    <action path="/ShowCategoryTree" type="ibei.http.controller.actions.ShowCategoryTreeAction"
+            name="categoryTreeForm"
+            input=".CategoryTree"
+            scope="request">
+              <forward name="ShowProductsCategoryForm" path="/Search.do"/>   
+     </action>
+
+    <action path="/Bid" type="ibei.http.controller.actions.BidAction"
+            name="bidForm"
+            input=".ShowBid"
+            scope="request"
+            validate="true">
+        <set-property property="authenticationRequired" value="true"/>              
+     </action>
+
+    <action path="/SearchBids" type="ibei.http.controller.actions.SearchBidsAction"
+           name="searchBidsForm"
+           scope="request">
+              <set-property property="authenticationRequired" value="true"/>
+              <forward name="SearchBidsUserForm" path=".ResultBidsUser"/>   
+              <forward name="SearchBidsProductForm" path=".ResultBidsProduct"/>   
+     </action>
+     
+     <!--  ===================================================================
+           The standard administrative actions available with Struts. These 
+           must be either omitted or protected by security in a real 
+           application deployment. 
+           =================================================================== -->
+
+    <action path="/admin/addFormBean"
+            type="org.apache.struts.actions.AddFormBeanAction"/>
+    <action path="/admin/addForward"
+            type="org.apache.struts.actions.AddForwardAction"/>
+    <action path="/admin/addMapping"
+            type="org.apache.struts.actions.AddMappingAction"/>
+    <action path="/admin/reload"
+            type="org.apache.struts.actions.ReloadAction"/>
+    <action path="/admin/removeFormBean"
+            type="org.apache.struts.actions.RemoveFormBeanAction"/>
+    <action path="/admin/removeForward"
+            type="org.apache.struts.actions.RemoveForwardAction"/>
+    <action path="/admin/removeMapping"
+            type="org.apache.struts.actions.RemoveMappingAction"/>
+
+</action-mappings>
+
+<!-- ============ Front Controller Configuration ========================== -->
+
+<controller processorClass="ibei.http.controller.frontcontroller.RequestProcessor"/>
+
+<!-- ============ Message Resources Definitions =========================== -->
+
+<message-resources parameter="ibei.http.view.messages.Messages_english"/>
+
+<!-- ============================ Tiles Plugin ============================ -->
+
+<plug-in className="org.apache.struts.tiles.TilesPlugin" >
+    <set-property property="definitions-config"
+                  value="/WEB-INF/Struts/tiles-defs.xml" />
+    <set-property property="moduleAware" value="true" />
+    <set-property property="definitions-parser-validate" value="true" />
+</plug-in>
+
+<!-- ======================== Validator Plugin ============================ -->
+
+<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+        value="/WEB-INF/Struts/validator-rules.xml,
+               /WEB-INF/Struts/validation.xml"/>
+</plug-in>
+
+<!-- ============================= Plugin ================================= -->
+<plug-in className="ibei.http.controller.plugin.Plugin"/>
+
+</struts-config>

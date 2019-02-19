@@ -1,0 +1,6 @@
+<p class="info" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"><jsp:output
+	omit-xml-declaration="true" /> <fmt:message key="InternalError.title" />.
+<fmt:message key="ErrorMessages.retry" /></p>
+

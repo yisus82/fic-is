@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+<!ENTITY CommonProperties SYSTEM "CommonProperties.xml">
+<!ENTITY CommonPathReferences SYSTEM "CommonPathReferences.xml">
+]>
+
+<!-- ======================================================================= -->
+<!--			     "J2EE-iBei" build file 			                     -->
+<!-- ======================================================================= -->
+
+<project name="J2EE-iBei" default="compile" basedir=".">
+
+	<!-- ============================  Properties ============================== -->
+
+	<property name="j2ee-ibei.home" value="${basedir}/.." />
+	    &CommonProperties;
+	    &CommonPathReferences;
+	    
+	<property name="j2ee-ibei.build" value="${j2ee-ibei.home}/Build" />
+	<property name="j2ee-ibei.javadoc" value="${j2ee-ibei.build}/JavaDoc" />
+	<property name="j2ee-ibei.sourcedistname" value="${j2ee-ibei.name}-src-${j2ee-ibei.version}" />
+	<property name="j2ee-ibei.sourcedist" value="${j2ee-ibei.build}/${j2ee-ibei.sourcedistname}" />
+
+	<!-- ============================ "init" target ============================ -->
+
+	<target name="init">
+		<echo>
+	--------------------------------------------------------------------------------
+	Running build file for entire project ...
+	--------------------------------------------------------------------------------
+	    </echo>
+	</target>
+
+	<!-- ============================ "all" target ============================= -->
+
+	<target name="all" depends="rebuild, jars, wars, javadoc" />
+
+	<!-- ========================== "compile" target =========================== -->
+
+	<target name="compile" depends="init">
+		<ant dir="${ibei.sources}" target="compile" />
+	</target>
+
+	<!-- =========================== "rebuild" target ========================== -->
+
+	<target name="rebuild" depends="init">
+		<ant dir="${ibei.sources}" target="rebuild" />
+	</target>
+
+	<!-- ============================ "jars" target ============================ -->
+
+	<target name="jars" depends="init">
+		<ant dir="${ibei.sources}" target="jars" />
+	</target>
+
+	<!-- ============================ "wars" target ============================ -->
+
+	<target name="wars" depends="init">
+		<ant dir="${ibei.sources}" target="wars" />
+	</target>
+
+	<!-- ========================= "javadoc" target ============================ -->
+
+	<target name="javadoc" depends="compile">
+		<delete dir="${j2ee-ibei.javadoc}" />
+		<mkdir dir="${j2ee-ibei.javadoc}" />
+		<javadoc packagenames="*" classpathref="j2ee-ibei.classpath" destdir="${j2ee-ibei.javadoc}" private="yes" windowtitle="${j2ee-ibei.name} v${j2ee-ibei.version}" doctitle="${j2ee-ibei.name} v${j2ee-ibei.version}" header="${j2ee-ibei.name} v${j2ee-ibei.version}" bottom="${j2ee-ibei.name} v${j2ee-ibei.version} - ${j2ee-ibei.author}">
+			<group title="iBei Subsystem" packages="ibei.*" />
+			<link href="${j2se.javadocurl}" />
+			<link href="${j2ee.javadocurl}" />
+			<link href="${struts.javadocurl}" />
+			<sourcepath>
+				<dirset dir="${j2ee-ibei.subsystems}">
+					<include name="*/Sources" />
+				</dirset>
+			</sourcepath>
+		</javadoc>
+	</target>
+
+	<!-- ========================= "sourcedist" target ========================= -->
+
+	<target name="sourcedist" depends="init">
+
+		<!-- Common files for all distributions -->
+		<patternset id="j2ee-ibei.sourcedist.commonfiles" includes="${j2ee-ibei.sourcedistname}/**" excludes="**/Build/**, **/*${j2ee-ibei.backupextension},
+	                      **/*.sh, **/WEB-INF/Struts/validator-rules.xml" />
+
+		<!-- Create Build directory (if necessary) -->
+		<mkdir dir="${j2ee-ibei.build}" />
+
+		<!-- .tar.gz distribution (with execution permissions for .sh files) -->
+		<delete file="${j2ee-ibei.sourcedist}.tar.gz" />
+		<tar tarfile="${j2ee-ibei.sourcedist}.tar.gz" longfile="gnu" compression="gzip">
+			<tarfileset dir="${j2ee-ibei.home}/..">
+				<patternset refid="j2ee-ibei.sourcedist.commonfiles" />
+			</tarfileset>
+			<tarfileset dir="${j2ee-ibei.home}/.." mode="755" includes="${j2ee-ibei.sourcedistname}/**/*.sh" />
+		</tar>
+
+		<!-- .zip distribution -->
+		<delete file="${j2ee-ibei.sourcedist}.zip" />
+		<zip destfile="${j2ee-ibei.sourcedist}.zip">
+			<fileset dir="${j2ee-ibei.home}/..">
+				<patternset refid="j2ee-ibei.sourcedist.commonfiles" />
+			</fileset>
+			<fileset dir="${j2ee-ibei.home}/.." includes="${j2ee-ibei.sourcedistname}/**/*.sh" />
+		</zip>
+
+	</target>
+
+	<!-- ============================ "cleardb" target ============================ -->
+
+	<target name="cleardb" depends="init">
+		<ant dir="${ibei.sources}" target="cleardb" />
+	</target>
+
+	<!-- ============================ "initdb" target ============================ -->
+
+	<target name="initdb" depends="init, cleardb">
+		<ant dir="${ibei.sources}" target="initdb" />
+	</target>
+
+</project>
